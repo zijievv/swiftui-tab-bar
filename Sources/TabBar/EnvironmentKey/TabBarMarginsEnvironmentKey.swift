@@ -34,6 +34,13 @@ extension View {
         )
     }
 
+    public func tabBarMargins(horizontal: CGFloat? = nil, vertical: CGFloat? = nil) -> some View {
+        environment(
+            \.tabBarMargins,
+            .init(top: vertical ?? 8, leading: horizontal ?? 0, bottom: vertical ?? 8, trailing: horizontal ?? 0)
+        )
+    }
+
     public func tabBarMargins(_ edgeInsets: EdgeInsets) -> some View {
         environment(\.tabBarMargins, edgeInsets)
     }

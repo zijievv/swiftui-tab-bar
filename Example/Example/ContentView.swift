@@ -39,8 +39,8 @@ struct ContentView: View {
                 }
         }
         .tabBarFill(.regularMaterial)
-        .tabBarMargins(top: 8, bottom: 8)
-        .tabBarPadding(top: 8, leading: 16, bottom: 8, trailing: 16)
+        .tabBarMargins(vertical: 8)
+        .tabBarPadding(horizontal: 16, vertical: 8)
         .tabBarShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
         .tabBarShadow(radius: 1, y: 1)
     }

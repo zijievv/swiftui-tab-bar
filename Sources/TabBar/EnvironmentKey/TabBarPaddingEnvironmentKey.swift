@@ -34,6 +34,13 @@ extension View {
         )
     }
 
+    public func tabBarPadding(horizontal: CGFloat? = nil, vertical: CGFloat? = nil) -> some View {
+        environment(
+            \.tabBarPadding,
+            .init(top: vertical ?? 0, leading: horizontal ?? 0, bottom: vertical ?? 0, trailing: horizontal ?? 0)
+        )
+    }
+
     public func tabBarPadding(_ edgeInsets: EdgeInsets) -> some View {
         environment(\.tabBarPadding, edgeInsets)
     }
