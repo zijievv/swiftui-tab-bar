@@ -13,9 +13,10 @@ import TabBar
 
 struct ContentView: View {
     @State private var item: Int = 0
+    @State private var visibility: Visibility = .visible
 
     var body: some View {
-        TabBar(selection: $item) {
+        TabBar(selection: $item, visibility: $visibility) {
             Text("Home View")
                 .tabItem(0) {
                     Image(systemName: item == 0 ? "house.fill" : "house")
@@ -43,6 +44,10 @@ struct ContentView: View {
         .tabBarPadding(horizontal: 16, vertical: 8)
         .tabBarShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
         .tabBarShadow(radius: 1, y: 1)
+        .overlay(alignment: .top) {
+            Button("Visibility") { visibility = visibility == .hidden ? .visible : .hidden }
+                .buttonStyle(.borderedProminent)
+        }
     }
 }
 

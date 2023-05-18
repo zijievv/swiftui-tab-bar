@@ -22,11 +22,17 @@ public struct TabBar<Selection, Content>: View where Selection: Hashable, Conten
     @State private var tabItemBuilders: [Selection: TabItemViewBuilderPreferenceKey<Selection>.BuilderWrapper] = [:]
     @State private var barContainerHeight: CGFloat = 0
     @State private var barContainerWidth: CGFloat = 0
+    @Binding private var visibility: Visibility
     private let selection: TabItemSelection<Selection>
     private let content: Content
 
-    public init(selection: Binding<Selection>, @ViewBuilder content: @escaping () -> Content) {
+    public init(
+        selection: Binding<Selection>,
+        visibility: Binding<Visibility> = .constant(.automatic),
+        @ViewBuilder content: @escaping () -> Content
+    ) {
         self.selection = .init(item: selection)
+        self._visibility = visibility
         self.content = content()
     }
 
@@ -36,8 +42,8 @@ public struct TabBar<Selection, Content>: View where Selection: Hashable, Conten
         }
         .environmentObject(selection)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .safeAreaInset(edge: .bottom, alignment: .center, spacing: barSpacing, content: mainBar)
-        .if(isDefaultBarShape) { $0.overlay(content: safeAreaBar) }
+        .if(isVisible) { $0.safeAreaInset(edge: .bottom, alignment: .center, spacing: barSpacing, content: mainBar) }
+        .if(isVisible && isDefaultBarShape) { $0.overlay(content: safeAreaBar) }
         .onPreferenceChange(TabItemPreferenceKey<Selection>.self) { self.items = $0 }
         .onPreferenceChange(TabItemViewBuilderPreferenceKey<Selection>.self) { self.tabItemBuilders = $0 }
         .onPreferenceChange(TabItemMaxHeightPreferenceKey.self) { self.barContainerHeight = $0 }
@@ -45,6 +51,7 @@ public struct TabBar<Selection, Content>: View where Selection: Hashable, Conten
     }
 
     private var mainBarShape: any Shape { barShape ?? Rectangle() }
+    private var isVisible: Bool { visibility != .hidden }
     private var isDefaultBarShape: Bool { barShape == nil }
     private var tabItemWidth: CGFloat { barContainerWidth / CGFloat(items.count) }
     private var tabBarHeight: CGFloat { barContainerHeight + barMargins.top + barMargins.bottom }
