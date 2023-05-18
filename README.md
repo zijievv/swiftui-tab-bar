@@ -21,22 +21,26 @@ struct ContentView: View {
 
     var body: some View {
         TabBar(selection: $item) {
-            Text("Home View")
+            HomeView()
                 .tabItem(0) {
                     Image(systemName: item == 0 ? "house.fill" : "house")
+                        .font(.title3)
                     Text("Home")
+                        .font(.system(.footnote, design: .rounded).weight(item == 0 ? .bold : .medium))
                 }
-            Text("Marks View")
+            MarksView()
                 .tabItem(1) {
                     Image(systemName: item == 1 ? "star.fill" : "star")
                         .font(.title3)
                     Text("Marks")
+                        .font(.system(.footnote, design: .rounded).weight(item == 1 ? .bold : .medium))
                 }
-            Text("User View")
+            UserView()
                 .tabItem(2) {
                     Image(systemName: item == 2 ? "person.fill" : "person")
                         .font(.title3)
                     Text("User")
+                        .font(.system(.footnote, design: .rounded).weight(item == 2 ? .bold : .medium))
                 }
         }
     }
