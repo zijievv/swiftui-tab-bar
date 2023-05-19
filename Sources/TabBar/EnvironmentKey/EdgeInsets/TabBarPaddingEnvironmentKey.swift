@@ -22,26 +22,11 @@ extension EnvironmentValues {
 }
 
 extension View {
-    public func tabBarPadding(
-        top: CGFloat? = nil,
-        leading: CGFloat? = nil,
-        bottom: CGFloat? = nil,
-        trailing: CGFloat? = nil
-    ) -> some View {
-        environment(
-            \.tabBarPadding,
-            .init(top: top ?? 0, leading: leading ?? 0, bottom: bottom ?? 0, trailing: trailing ?? 0)
-        )
-    }
-
-    public func tabBarPadding(horizontal: CGFloat? = nil, vertical: CGFloat? = nil) -> some View {
-        environment(
-            \.tabBarPadding,
-            .init(top: vertical ?? 0, leading: horizontal ?? 0, bottom: vertical ?? 0, trailing: horizontal ?? 0)
-        )
+    public func tabBarPadding(_ edges: Edge.Set = .all, _ length: CGFloat? = nil) -> some View {
+        modifier(EdgeSetEdgeInsetsViewModifier(keyPath: \.tabBarPadding, edges: edges, length: length))
     }
 
     public func tabBarPadding(_ edgeInsets: EdgeInsets) -> some View {
-        environment(\.tabBarPadding, edgeInsets)
+        modifier(EdgeInsetsViewModifier(keyPath: \.tabBarPadding, edgeInsets: edgeInsets))
     }
 }

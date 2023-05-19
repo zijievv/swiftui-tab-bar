@@ -58,8 +58,9 @@ TabBar(selection: $item) {
     // ...
 }
 .tabBarFill(.regularMaterial)
-.tabBarMargins(top: 8, bottom: 8)
-.tabBarPadding(top: 8, leading: 16, bottom: 8, trailing: 16)
+.tabBarMargins(.vertical, 8)
+.tabBarPadding(.vertical, 8)
+.tabBarPadding(.horizontal, 16)
 .tabBarShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
 .tabBarShadow(radius: 1, y: 1)
 ```
@@ -74,7 +75,7 @@ TabBar(selection: $item) {
 }
 .tabBarFill(.linearGradient(colors: [.orange, .yellow], 
                             startPoint: .top, endPoint: .bottom))
-.tabBarMargins(top: 8, bottom: 8)
+.tabBarMargins(.vertical, 8)
 ```
 
 <img src="Resources/Images/defaultShapeGradient-half.png" alt="defaultShapeGradient-half" style="zoom:50%;" />
@@ -85,8 +86,9 @@ TabBar(selection: $item) {
 TabBar(selection: $item) {
     // ...
 }
-.tabBarMargins(top: 8, bottom: 8)
-.tabBarPadding(top: 8, leading: 16, bottom: 8, trailing: 16)
+.tabBarMargins(.vertical, 8)
+.tabBarPadding(.vertical, 8)
+.tabBarPadding(.horizontal, 16)
 .tabBarShape(Capsule(style: .continuous))
 .tabBarFill(.linearGradient(colors: [.yellow, .yellow.opacity(0.4)], 
                             startPoint: .top, endPoint: .bottom))
