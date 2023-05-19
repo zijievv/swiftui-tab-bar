@@ -34,13 +34,12 @@ public struct TabBar<Selection, Content>: View where Selection: Hashable, Conten
         ZStack(content: content)
             .environmentObject(selection)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .if(isBarVisible) {
-                $0.safeAreaInset(edge: .bottom, alignment: .center, spacing: barSpacing) {
+            .safeAreaInset(edge: .bottom, alignment: .center, spacing: barSpacing) {
+                if visibility != .hidden {
                     MainBar(barContentHeight: $barContentHeight) {
                         ForEach(items, id: \.hashValue, content: tab(item:))
                     }
                 }
-                .overlay { SafeAreaBar(barContentHeight: $barContentHeight) }
             }
             .onPreferenceChange(TabItemPreferenceKey<Selection>.self) { self.items = $0 }
             .onPreferenceChange(TabItemViewBuilderPreferenceKey<Selection>.self) { self.tabItemBuilders = $0 }
@@ -48,7 +47,6 @@ public struct TabBar<Selection, Content>: View where Selection: Hashable, Conten
             .onPreferenceChange(TabBarContentWidthPreferenceKey.self) { self.barContentWidth = $0 }
     }
 
-    private var isBarVisible: Bool { visibility != .hidden }
     private var tabItemWidth: CGFloat { barContentWidth / CGFloat(items.count) }
 
     @ViewBuilder
@@ -74,15 +72,16 @@ private struct MainBar<Content: View>: View {
     let content: () -> Content
 
     var body: some View {
-        ZStack {
+        ZStack(alignment: .top) {
             backgroundBoard()
             HStack(spacing: 0, content: content)
-                .offset(y: (barMargins.top - barMargins.bottom) / 2)
+                .padding(barMargins)
         }
-        .padding(barShape == nil ? EdgeInsets(top: barPadding.top, leading: 0, bottom: 0, trailing: 0) : barPadding)
+        .padding(isDefaultShape ? EdgeInsets(top: barPadding.top, leading: 0, bottom: 0, trailing: 0) : barPadding)
     }
 
     private var mainBarShape: any Shape { barShape ?? Rectangle() }
+    private var isDefaultShape: Bool { barShape == nil }
 
     private func backgroundBoard() -> some View {
         Color.clear
@@ -90,43 +89,12 @@ private struct MainBar<Content: View>: View {
             .frame(maxWidth: .infinity)
             .mesurementSize(of: \.width, to: TabBarContentWidthPreferenceKey.self)
             .padding(barMargins)
-            .background {
+            .background(alignment: .top) {
                 GeometryReader { geo in
-                    AnyView(mainBarShape.fill(shapeStyle.in(filledRect(with: geo)), style: fillStyle))
+                    AnyView(mainBarShape.fill(shapeStyle, style: fillStyle))
+                        .frame(height: isDefaultShape ? geo.size.height + geo.safeAreaInsets.bottom : geo.size.height)
                         .shadow(color: barShadow.color, radius: barShadow.radius, x: barShadow.x, y: barShadow.y)
                 }
             }
-    }
-
-    private func filledRect(with geo: GeometryProxy) -> CGRect {
-        CGRect(x: 0, y: 0, width: geo.size.width, height: geo.size.height + geo.safeAreaInsets.bottom)
-    }
-}
-
-private struct SafeAreaBar: View {
-    @Environment(\.tabBarShapeStyle) private var shapeStyle
-    @Environment(\.tabBarFillStyle) private var fillStyle
-    @Environment(\.tabBarMargins) private var barMargins
-    @Environment(\.tabBarShape) private var barShape
-    @Binding var barContentHeight: CGFloat
-
-    var body: some View {
-        if barShape == nil {
-            GeometryReader { geo in
-                VStack(spacing: 0) {
-                    Spacer(minLength: 0)
-                    Rectangle()
-                        .fill(shapeStyle.in(fillRect(with: geo)), style: fillStyle)
-                        .frame(height: geo.safeAreaInsets.bottom)
-                }
-                .ignoresSafeArea()
-            }
-        }
-    }
-
-    private var barHeight: CGFloat { barContentHeight + barMargins.top + barMargins.bottom }
-
-    private func fillRect(with geo: GeometryProxy) -> CGRect {
-        CGRect(x: 0, y: -barHeight, width: geo.size.width, height: geo.safeAreaInsets.bottom + barHeight)
     }
 }
