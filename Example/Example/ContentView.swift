@@ -12,6 +12,7 @@ import SwiftUI
 import TabBar
 
 struct ContentView: View {
+    @Environment(\.colorScheme) private var colorScheme
     @State private var item: Int = 0
     @State private var visibility: Visibility = .visible
 
@@ -44,11 +45,12 @@ struct ContentView: View {
         .tabBarPadding(.horizontal, 16)
         .tabBarPadding(.vertical, 8)
         .tabBarShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-        .tabBarShadow(radius: 1, y: 1)
+        .tabBarShadow(color: .init(.sRGBLinear, white: colorScheme == .dark ? 1 : 0, opacity: 0.33), radius: 1, y: 2)
         .overlay(alignment: .top) {
             Button("Visibility") { visibility = visibility == .hidden ? .visible : .hidden }
                 .buttonStyle(.borderedProminent)
         }
+        .preferredColorScheme(.dark)
     }
 }
 
