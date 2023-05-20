@@ -11,13 +11,14 @@
 import SwiftUI
 
 public struct TabBar<Selection, Content>: View where Selection: Hashable, Content: View {
+    @Environment(\.tabItemSelectionHashValue) private var selectionHashValue
     @Environment(\.tabBarSpacing) private var barSpacing
     @State private var items: [Selection] = []
     @State private var tabItemBuilders: [Selection: TabItemViewBuilderPreferenceKey<Selection>.BuilderWrapper] = [:]
     @State private var barContentHeight: CGFloat = 0
     @State private var barContentWidth: CGFloat = 0
+    @Binding private var selection: Selection
     @Binding private var visibility: Visibility
-    private let selection: TabItemSelection<Selection>
     private let content: () -> Content
 
     public init(
@@ -25,14 +26,13 @@ public struct TabBar<Selection, Content>: View where Selection: Hashable, Conten
         visibility: Binding<Visibility> = .constant(.automatic),
         @ViewBuilder content: @escaping () -> Content
     ) {
-        self.selection = .init(item: selection)
+        self._selection = selection
         self._visibility = visibility
         self.content = content
     }
 
     public var body: some View {
         ZStack(content: content)
-            .environmentObject(selection)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .safeAreaInset(edge: .bottom, alignment: .center, spacing: barSpacing) {
                 if visibility != .hidden {
@@ -45,6 +45,7 @@ public struct TabBar<Selection, Content>: View where Selection: Hashable, Conten
             .onPreferenceChange(TabItemViewBuilderPreferenceKey<Selection>.self) { self.tabItemBuilders = $0 }
             .onPreferenceChange(TabItemMaxHeightPreferenceKey.self) { self.barContentHeight = $0 }
             .onPreferenceChange(TabBarContentWidthPreferenceKey.self) { self.barContentWidth = $0 }
+            .environment(\.tabItemSelectionHashValue, selection.hashValue)
     }
 
     private var tabItemWidth: CGFloat { barContentWidth / CGFloat(items.count) }
@@ -56,7 +57,7 @@ public struct TabBar<Selection, Content>: View where Selection: Hashable, Conten
                 .contentShape(Rectangle())
                 .frame(width: tabItemWidth)
                 .mesurementSize(of: \.height, to: TabItemMaxHeightPreferenceKey.self)
-                .onTapGesture { selection.item = item }
+                .onTapGesture { selection = item }
         }
     }
 }

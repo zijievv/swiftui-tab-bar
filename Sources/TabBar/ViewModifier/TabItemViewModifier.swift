@@ -11,7 +11,7 @@
 import SwiftUI
 
 struct TabItemViewModifier<Selection: Hashable, V: View>: ViewModifier {
-    @EnvironmentObject private var selection: TabItemSelection<Selection>
+    @Environment(\.tabItemSelectionHashValue) private var selectionHashValue
     private let item: Selection
     @ViewBuilder private let itemBuilder: () -> V
 
@@ -22,7 +22,7 @@ struct TabItemViewModifier<Selection: Hashable, V: View>: ViewModifier {
 
     func body(content: Content) -> some View {
         Group {
-            if selection.item == item {
+            if selectionHashValue == item.hashValue {
                 content
             } else {
                 Color.clear
