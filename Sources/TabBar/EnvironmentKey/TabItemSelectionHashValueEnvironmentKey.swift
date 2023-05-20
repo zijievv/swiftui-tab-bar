@@ -11,7 +11,7 @@
 import SwiftUI
 
 struct TabItemSelectionHashValueEnvironmentKey: EnvironmentKey {
-    static var defaultValue: Int? = nil
+    static var defaultValue: Int? { nil }
 }
 
 extension EnvironmentValues {

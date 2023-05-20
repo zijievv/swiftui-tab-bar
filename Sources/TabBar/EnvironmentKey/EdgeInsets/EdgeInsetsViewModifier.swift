@@ -11,11 +11,11 @@
 import SwiftUI
 
 struct EdgeInsetsViewModifier: ViewModifier {
-    private var envEdgeInsets: Environment<EdgeInsets>
-    private let path: WritableKeyPath<EnvironmentValues, EdgeInsets>
+    private var envEdgeInsets: Environment<EdgeInsets?>
+    private let path: WritableKeyPath<EnvironmentValues, EdgeInsets?>
     private let edgeInsets: EdgeInsets
 
-    init(keyPath: WritableKeyPath<EnvironmentValues, EdgeInsets>, edgeInsets: EdgeInsets) {
+    init(keyPath: WritableKeyPath<EnvironmentValues, EdgeInsets?>, edgeInsets: EdgeInsets) {
         self.envEdgeInsets = Environment(keyPath)
         self.path = keyPath
         self.edgeInsets = edgeInsets
@@ -26,7 +26,7 @@ struct EdgeInsetsViewModifier: ViewModifier {
     }
 
     private func newInsets() -> EdgeInsets {
-        let old = envEdgeInsets.wrappedValue
+        guard let old = envEdgeInsets.wrappedValue else { return edgeInsets }
         return .init(
             top: old.top + edgeInsets.top,
             leading: old.leading + edgeInsets.leading,

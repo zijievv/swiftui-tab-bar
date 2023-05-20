@@ -11,11 +11,11 @@
 import SwiftUI
 
 struct TabBarMarginsEnvironmentKey: EnvironmentKey {
-    static var defaultValue: EdgeInsets { .init(top: 0, leading: 0, bottom: 0, trailing: 0) }
+    static var defaultValue: EdgeInsets? { nil }
 }
 
 extension EnvironmentValues {
-    var tabBarMargins: EdgeInsets {
+    var tabBarMargins: EdgeInsets? {
         get { self[TabBarMarginsEnvironmentKey.self] }
         set { self[TabBarMarginsEnvironmentKey.self] = newValue }
     }

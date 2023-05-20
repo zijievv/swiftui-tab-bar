@@ -11,16 +11,16 @@
 import SwiftUI
 
 struct EdgeSetEdgeInsetsViewModifier: ViewModifier {
-    private var envEdgeInsets: Environment<EdgeInsets>
-    private let path: WritableKeyPath<EnvironmentValues, EdgeInsets>
+    private var envEdgeInsets: Environment<EdgeInsets?>
+    private let path: WritableKeyPath<EnvironmentValues, EdgeInsets?>
     private let edges: Edge.Set
-    private let length: CGFloat?
+    private let length: CGFloat
 
-    init(keyPath: WritableKeyPath<EnvironmentValues, EdgeInsets>, edges: Edge.Set, length: CGFloat?) {
+    init(keyPath: WritableKeyPath<EnvironmentValues, EdgeInsets?>, edges: Edge.Set, length: CGFloat?) {
         self.envEdgeInsets = Environment(keyPath)
         self.path = keyPath
         self.edges = edges
-        self.length = length
+        self.length = length ?? 8
     }
 
     func body(content: Content) -> some View {
@@ -28,7 +28,14 @@ struct EdgeSetEdgeInsetsViewModifier: ViewModifier {
     }
 
     private func new() -> EdgeInsets {
-        let old = envEdgeInsets.wrappedValue
+        guard let old = envEdgeInsets.wrappedValue else {
+            return .init(
+                top: edges.contains(.top) ? length : 0,
+                leading: edges.contains(.leading) ? length : 0,
+                bottom: edges.contains(.bottom) ? length : 0,
+                trailing: edges.contains(.trailing) ? length : 0
+            )
+        }
         return .init(
             top: inset(.top, with: old),
             leading: inset(.leading, with: old),
@@ -38,7 +45,7 @@ struct EdgeSetEdgeInsetsViewModifier: ViewModifier {
     }
 
     private func inset(_ edge: Edge, with oldInsets: EdgeInsets) -> CGFloat {
-        edges.contains(.init(edge)) ? (length ?? 8) + oldInsets.length(of: edge) : oldInsets.length(of: edge)
+        edges.contains(.init(edge)) ? length + oldInsets.length(of: edge) : oldInsets.length(of: edge)
     }
 }
 
