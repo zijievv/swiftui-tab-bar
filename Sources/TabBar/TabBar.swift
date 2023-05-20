@@ -49,14 +49,17 @@ public struct TabBar<Selection, Content>: View where Selection: Hashable, Conten
 
     @ViewBuilder
     private func tabBar() -> some View {
-        if visibility != .hidden {
-            HStack(alignment: .bottom, spacing: 0) {
-                ForEach(items, id: \.hashValue, content: tab(item:))
+        Group {
+            if visibility != .hidden {
+                HStack(alignment: .bottom, spacing: 0) {
+                    ForEach(items, id: \.hashValue, content: tab(item:))
+                }
+                .padding(margins)
+                .background(alignment: .top) { GeometryReader(content: backgroundBoard(with:)) }
+                .padding(padding)
             }
-            .padding(margins)
-            .background(alignment: .top) { GeometryReader(content: backgroundBoard(with:)) }
-            .padding(padding)
         }
+        .mesurementSize(of: \.height, to: TabBarHeightPreferenceKey.self)
     }
 
     @ViewBuilder
