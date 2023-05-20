@@ -21,8 +21,6 @@ public struct TabBar<Selection, Content>: View where Selection: Hashable, Conten
     @Environment(\.tabBarShape) private var barShape
     @State private var items: [Selection] = []
     @State private var tabItemBuilders: [Selection: ItemViewBuilderPreferenceKey<Selection>.BuilderWrapper] = [:]
-    @State private var barContentHeight: CGFloat = 0
-    @State private var barContentWidth: CGFloat = 0
     @Binding private var selection: Selection
     @Binding private var visibility: Visibility
     private let content: () -> Content
@@ -43,54 +41,40 @@ public struct TabBar<Selection, Content>: View where Selection: Hashable, Conten
             .safeAreaInset(edge: .bottom, alignment: .center, spacing: barSpacing, content: tabBar)
             .onPreferenceChange(ItemsPreferenceKey<Selection>.self) { self.items = $0 }
             .onPreferenceChange(ItemViewBuilderPreferenceKey<Selection>.self) { self.tabItemBuilders = $0 }
-            .onPreferenceChange(ItemMaxHeightPreferenceKey.self) { self.barContentHeight = $0 }
-            .onPreferenceChange(BarContentWidthPreferenceKey.self) { self.barContentWidth = $0 }
             .environment(\.tabItemSelectionHashValue, selection.hashValue)
     }
 
     @ViewBuilder
     private func tabBar() -> some View {
         if visibility != .hidden {
-            ZStack(alignment: .top) {
-                backgroundBoard()
-                HStack(spacing: 0) {
-                    ForEach(items, id: \.hashValue, content: tab(item:))
-                }
-                .padding(margins)
+            HStack(alignment: .bottom, spacing: 0) {
+                ForEach(items, id: \.hashValue, content: tab(item:))
             }
+            .padding(margins)
+            .background(alignment: .top) { GeometryReader(content: backgroundBoard(with:)) }
             .padding(isDefaultShape ? EdgeInsets(top: padding.top, leading: 0, bottom: 0, trailing: 0) : padding)
         }
-    }
-
-    private func backgroundBoard() -> some View {
-        Color.clear
-            .frame(height: barContentHeight)
-            .frame(maxWidth: .infinity)
-            .mesurementSize(of: \.width, to: BarContentWidthPreferenceKey.self)
-            .padding(margins)
-            .background(alignment: .top) {
-                GeometryReader { geo in
-                    AnyView(mainBarShape.fill(shapeStyle, style: fillStyle))
-                        .frame(height: isDefaultShape ? geo.size.height + geo.safeAreaInsets.bottom : geo.size.height)
-                        .shadow(color: barShadow.color, radius: barShadow.radius, x: barShadow.x, y: barShadow.y)
-                }
-            }
     }
 
     @ViewBuilder
     private func tab(item: Selection) -> some View {
         if let builder = tabItemBuilders[item]?.content {
+            Spacer(minLength: 0)
             builder()
                 .contentShape(Rectangle())
-                .frame(width: tabItemWidth)
-                .mesurementSize(of: \.height, to: ItemMaxHeightPreferenceKey.self)
                 .onTapGesture { selection = item }
+            Spacer(minLength: 0)
         }
+    }
+
+    private func backgroundBoard(with geo: GeometryProxy) -> some View {
+        AnyView(mainBarShape.fill(shapeStyle, style: fillStyle))
+            .frame(height: isDefaultShape ? geo.size.height + geo.safeAreaInsets.bottom : geo.size.height)
+            .shadow(color: barShadow.color, radius: barShadow.radius, x: barShadow.x, y: barShadow.y)
     }
 
     private var margins: EdgeInsets { barMargins ?? .init(top: 8, leading: 0, bottom: 8, trailing: 0) }
     private var padding: EdgeInsets { barPadding ?? .init(top: 0, leading: 0, bottom: 0, trailing: 0) }
-    private var tabItemWidth: CGFloat { barContentWidth / CGFloat(items.count) }
     private var mainBarShape: any Shape { barShape ?? Rectangle() }
     private var isDefaultShape: Bool { barShape == nil }
 }
