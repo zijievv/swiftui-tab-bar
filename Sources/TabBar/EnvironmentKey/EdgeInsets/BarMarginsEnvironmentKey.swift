@@ -1,5 +1,5 @@
 //
-//  TabBarMarginsEnvironmentKey.swift
+//  BarMarginsEnvironmentKey.swift
 //
 //
 //  Created by Zijie on 18.05.2023.
@@ -10,14 +10,14 @@
 
 import SwiftUI
 
-struct TabBarMarginsEnvironmentKey: EnvironmentKey {
+struct BarMarginsEnvironmentKey: EnvironmentKey {
     static var defaultValue: EdgeInsets? { nil }
 }
 
 extension EnvironmentValues {
     var tabBarMargins: EdgeInsets? {
-        get { self[TabBarMarginsEnvironmentKey.self] }
-        set { self[TabBarMarginsEnvironmentKey.self] = newValue }
+        get { self[BarMarginsEnvironmentKey.self] }
+        set { self[BarMarginsEnvironmentKey.self] = newValue }
     }
 }
 

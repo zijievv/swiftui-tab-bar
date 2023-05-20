@@ -1,5 +1,5 @@
 //
-//  TabBarContentWidthPreferenceKey.swift
+//  BarContentWidthPreferenceKey.swift
 //
 //
 //  Created by Zijie on 18.05.2023.
@@ -10,7 +10,7 @@
 
 import SwiftUI
 
-struct TabBarContentWidthPreferenceKey: PreferenceKey {
+struct BarContentWidthPreferenceKey: PreferenceKey {
     static var defaultValue: CGFloat = .zero
     static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
         value = max(value, nextValue())

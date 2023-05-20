@@ -28,9 +28,9 @@ struct TabItemViewModifier<Selection: Hashable, V: View>: ViewModifier {
                 Color.clear
             }
         }
-        .preference(key: TabItemPreferenceKey.self, value: [item])
+        .preference(key: ItemsPreferenceKey.self, value: [item])
         .preference(
-            key: TabItemViewBuilderPreferenceKey.self,
+            key: ItemViewBuilderPreferenceKey.self,
             value: [item: .init(content: { AnyView(VStack(content: itemBuilder)) })]
         )
     }

@@ -1,5 +1,5 @@
 //
-//  TabBarSpacingEnvironmentKey.swift
+//  BarSpacingEnvironmentKey.swift
 //
 //
 //  Created by Zijie on 18.05.2023.
@@ -10,14 +10,14 @@
 
 import SwiftUI
 
-struct TabBarSpacingEnvironmentKey: EnvironmentKey {
+struct BarSpacingEnvironmentKey: EnvironmentKey {
     static var defaultValue: CGFloat? = nil
 }
 
 extension EnvironmentValues {
     var tabBarSpacing: CGFloat? {
-        get { self[TabBarSpacingEnvironmentKey.self] }
-        set { self[TabBarSpacingEnvironmentKey.self] = newValue }
+        get { self[BarSpacingEnvironmentKey.self] }
+        set { self[BarSpacingEnvironmentKey.self] = newValue }
     }
 }
 

@@ -1,5 +1,5 @@
 //
-//  TabBarShadowEnvironmentKey.swift
+//  BarShadowEnvironmentKey.swift
 //
 //
 //  Created by Zijie on 18.05.2023.
@@ -10,7 +10,7 @@
 
 import SwiftUI
 
-struct TabBarShadowEnvironmentKey: EnvironmentKey {
+struct BarShadowEnvironmentKey: EnvironmentKey {
     static var defaultValue: Shadow = .init(color: .clear, radius: 0, x: 0, y: 0)
 
     struct Shadow {
@@ -22,9 +22,9 @@ struct TabBarShadowEnvironmentKey: EnvironmentKey {
 }
 
 extension EnvironmentValues {
-    var tabBarShadow: TabBarShadowEnvironmentKey.Shadow {
-        get { self[TabBarShadowEnvironmentKey.self] }
-        set { self[TabBarShadowEnvironmentKey.self] = newValue }
+    var tabBarShadow: BarShadowEnvironmentKey.Shadow {
+        get { self[BarShadowEnvironmentKey.self] }
+        set { self[BarShadowEnvironmentKey.self] = newValue }
     }
 }
 

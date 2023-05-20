@@ -1,5 +1,5 @@
 //
-//  TabItemViewBuilderPreferenceKey.swift
+//  ItemViewBuilderPreferenceKey.swift
 //
 //
 //  Created by Zijie on 18.05.2023.
@@ -10,7 +10,7 @@
 
 import SwiftUI
 
-struct TabItemViewBuilderPreferenceKey<Selection: Hashable>: PreferenceKey {
+struct ItemViewBuilderPreferenceKey<Selection: Hashable>: PreferenceKey {
     static var defaultValue: [Selection: BuilderWrapper] { [:] }
     static func reduce(value: inout [Selection: BuilderWrapper], nextValue: () -> [Selection: BuilderWrapper]) {
         value.merge(nextValue(), uniquingKeysWith: { $1 })
@@ -21,8 +21,8 @@ struct TabItemViewBuilderPreferenceKey<Selection: Hashable>: PreferenceKey {
         let content: () -> AnyView
 
         static func == (
-            lhs: TabItemViewBuilderPreferenceKey<Selection>.BuilderWrapper,
-            rhs: TabItemViewBuilderPreferenceKey<Selection>.BuilderWrapper
+            lhs: ItemViewBuilderPreferenceKey<Selection>.BuilderWrapper,
+            rhs: ItemViewBuilderPreferenceKey<Selection>.BuilderWrapper
         ) -> Bool {
             lhs.id == rhs.id
         }

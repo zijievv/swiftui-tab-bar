@@ -1,5 +1,5 @@
 //
-//  TabBarShapeEnvironmentKey.swift
+//  BarShapeEnvironmentKey.swift
 //
 //
 //  Created by Zijie on 18.05.2023.
@@ -10,14 +10,14 @@
 
 import SwiftUI
 
-struct TabBarShapeEnvironmentKey: EnvironmentKey {
+struct BarShapeEnvironmentKey: EnvironmentKey {
     static var defaultValue: (any Shape)? = nil
 }
 
 extension EnvironmentValues {
     var tabBarShape: (any Shape)? {
-        get { self[TabBarShapeEnvironmentKey.self] }
-        set { self[TabBarShapeEnvironmentKey.self] = newValue }
+        get { self[BarShapeEnvironmentKey.self] }
+        set { self[BarShapeEnvironmentKey.self] = newValue }
     }
 }
 

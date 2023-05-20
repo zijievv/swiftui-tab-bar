@@ -20,7 +20,7 @@ public struct TabBar<Selection, Content>: View where Selection: Hashable, Conten
     @Environment(\.tabBarShadow) private var barShadow
     @Environment(\.tabBarShape) private var barShape
     @State private var items: [Selection] = []
-    @State private var tabItemBuilders: [Selection: TabItemViewBuilderPreferenceKey<Selection>.BuilderWrapper] = [:]
+    @State private var tabItemBuilders: [Selection: ItemViewBuilderPreferenceKey<Selection>.BuilderWrapper] = [:]
     @State private var barContentHeight: CGFloat = 0
     @State private var barContentWidth: CGFloat = 0
     @Binding private var selection: Selection
@@ -41,10 +41,10 @@ public struct TabBar<Selection, Content>: View where Selection: Hashable, Conten
         ZStack(content: content)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .safeAreaInset(edge: .bottom, alignment: .center, spacing: barSpacing, content: tabBar)
-            .onPreferenceChange(TabItemPreferenceKey<Selection>.self) { self.items = $0 }
-            .onPreferenceChange(TabItemViewBuilderPreferenceKey<Selection>.self) { self.tabItemBuilders = $0 }
-            .onPreferenceChange(TabItemMaxHeightPreferenceKey.self) { self.barContentHeight = $0 }
-            .onPreferenceChange(TabBarContentWidthPreferenceKey.self) { self.barContentWidth = $0 }
+            .onPreferenceChange(ItemsPreferenceKey<Selection>.self) { self.items = $0 }
+            .onPreferenceChange(ItemViewBuilderPreferenceKey<Selection>.self) { self.tabItemBuilders = $0 }
+            .onPreferenceChange(ItemMaxHeightPreferenceKey.self) { self.barContentHeight = $0 }
+            .onPreferenceChange(BarContentWidthPreferenceKey.self) { self.barContentWidth = $0 }
             .environment(\.tabItemSelectionHashValue, selection.hashValue)
     }
 
@@ -66,7 +66,7 @@ public struct TabBar<Selection, Content>: View where Selection: Hashable, Conten
         Color.clear
             .frame(height: barContentHeight)
             .frame(maxWidth: .infinity)
-            .mesurementSize(of: \.width, to: TabBarContentWidthPreferenceKey.self)
+            .mesurementSize(of: \.width, to: BarContentWidthPreferenceKey.self)
             .padding(margins)
             .background(alignment: .top) {
                 GeometryReader { geo in
@@ -83,7 +83,7 @@ public struct TabBar<Selection, Content>: View where Selection: Hashable, Conten
             builder()
                 .contentShape(Rectangle())
                 .frame(width: tabItemWidth)
-                .mesurementSize(of: \.height, to: TabItemMaxHeightPreferenceKey.self)
+                .mesurementSize(of: \.height, to: ItemMaxHeightPreferenceKey.self)
                 .onTapGesture { selection = item }
         }
     }

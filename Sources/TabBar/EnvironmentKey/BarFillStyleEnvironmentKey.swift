@@ -1,5 +1,5 @@
 //
-//  TabBarFillStyleEnvironmentKey.swift
+//  BarFillStyleEnvironmentKey.swift
 //
 //
 //  Created by Zijie on 18.05.2023.
@@ -10,13 +10,13 @@
 
 import SwiftUI
 
-struct TabBarFillStyleEnvironmentKey: EnvironmentKey {
+struct BarFillStyleEnvironmentKey: EnvironmentKey {
     static var defaultValue: FillStyle = .init()
 }
 
 extension EnvironmentValues {
     var tabBarFillStyle: FillStyle {
-        get { self[TabBarFillStyleEnvironmentKey.self] }
-        set { self[TabBarFillStyleEnvironmentKey.self] = newValue }
+        get { self[BarFillStyleEnvironmentKey.self] }
+        set { self[BarFillStyleEnvironmentKey.self] = newValue }
     }
 }
