@@ -21,6 +21,7 @@ public struct TabBar<Selection, Content>: View where Selection: Hashable, Conten
     @Environment(\.tabBarShape) private var barShape
     @State private var items: [Selection] = []
     @State private var tabItemBuilders: [Selection: AnyItemViewBuilder<Selection>] = [:]
+    @State private var width: CGFloat = 0
     @Binding private var selection: Selection
     @Binding private var visibility: Visibility
     private let content: () -> Content
@@ -39,6 +40,8 @@ public struct TabBar<Selection, Content>: View where Selection: Hashable, Conten
         ZStack(content: content)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .safeAreaInset(edge: .bottom, alignment: .center, spacing: barSpacing, content: tabBar)
+            .mesurementSize(of: \.width, to: TabBarViewWidthPreferenceKey.self)
+            .onPreferenceChange(TabBarViewWidthPreferenceKey.self) { self.width = $0 }
             .onPreferenceChange(ItemsPreferenceKey<Selection>.self) { self.items = $0 }
             .onPreferenceChange(ItemViewBuilderPreferenceKey<Selection>.self) { self.tabItemBuilders = $0 }
             .environment(\.tabItemSelectionHashValue, selection.hashValue)
@@ -52,18 +55,17 @@ public struct TabBar<Selection, Content>: View where Selection: Hashable, Conten
             }
             .padding(margins)
             .background(alignment: .top) { GeometryReader(content: backgroundBoard(with:)) }
-            .padding(isDefaultShape ? EdgeInsets(top: padding.top, leading: 0, bottom: 0, trailing: 0) : padding)
+            .padding(padding)
         }
     }
 
     @ViewBuilder
     private func tab(item: Selection) -> some View {
         if let builder = tabItemBuilders[item]?.content {
-            Spacer(minLength: 0)
             builder()
                 .contentShape(Rectangle())
                 .onTapGesture { selection = item }
-            Spacer(minLength: 0)
+                .frame(width: itemWidth)
         }
     }
 
@@ -73,8 +75,14 @@ public struct TabBar<Selection, Content>: View where Selection: Hashable, Conten
             .shadow(color: barShadow.color, radius: barShadow.radius, x: barShadow.x, y: barShadow.y)
     }
 
-    private var margins: EdgeInsets { barMargins ?? .init(top: 8, leading: 0, bottom: 8, trailing: 0) }
-    private var padding: EdgeInsets { barPadding ?? .init(top: 0, leading: 0, bottom: 0, trailing: 0) }
     private var mainBarShape: any Shape { barShape ?? Rectangle() }
     private var isDefaultShape: Bool { barShape == nil }
+    private var itemWidth: CGFloat {
+        (width - padding.leading - padding.trailing - margins.leading - margins.trailing) / CGFloat(items.count)
+    }
+    private var margins: EdgeInsets { barMargins ?? .init(top: 8, leading: 0, bottom: 8, trailing: 0) }
+    private var padding: EdgeInsets {
+        guard !isDefaultShape else { return .init(top: barPadding?.top ?? 0, leading: 0, bottom: 0, trailing: 0) }
+        return barPadding ?? .init(top: 0, leading: 0, bottom: 0, trailing: 0)
+    }
 }

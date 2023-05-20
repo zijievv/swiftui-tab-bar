@@ -32,3 +32,10 @@ extension View {
         modifier(SizeMesurementViewModifier(path: path, key: key))
     }
 }
+
+struct TabBarViewWidthPreferenceKey: PreferenceKey {
+    static var defaultValue: CGFloat = .zero
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = max(value, nextValue())
+    }
+}
