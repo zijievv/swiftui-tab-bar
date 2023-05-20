@@ -27,14 +27,3 @@ extension EnvironmentValues {
         set { self[BarShadowEnvironmentKey.self] = newValue }
     }
 }
-
-extension View {
-    public func tabBarShadow(
-        color: Color = .init(.sRGBLinear, white: 0, opacity: 0.33),
-        radius: CGFloat,
-        x: CGFloat = 0,
-        y: CGFloat = 0
-    ) -> some View {
-        environment(\.tabBarShadow, .init(color: color, radius: radius, x: x, y: y))
-    }
-}

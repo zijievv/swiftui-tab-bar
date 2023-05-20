@@ -1,5 +1,5 @@
 //
-//  View+Extension.swift
+//  PrivateViewExtension.swift
 //
 //
 //  Created by Zijie on 18.05.2023.
@@ -18,5 +18,12 @@ extension View {
         } else {
             self
         }
+    }
+
+    func mesurementSize<Key: PreferenceKey>(
+        of path: KeyPath<CGSize, CGFloat>,
+        to key: Key.Type
+    ) -> some View where Key.Value == CGFloat {
+        modifier(SizeMesurementViewModifier(path: path, key: key))
     }
 }

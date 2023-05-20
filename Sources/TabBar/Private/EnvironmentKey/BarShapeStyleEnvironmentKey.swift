@@ -20,11 +20,3 @@ extension EnvironmentValues {
         set { self[BarShapeStyleEnvironmentKey.self] = newValue }
     }
 }
-
-extension View {
-    public func tabBarFill<S: ShapeStyle>(_ content: S, style: FillStyle = .init()) -> some View {
-        self
-            .environment(\.tabBarShapeStyle, .init(AnyShapeStyle(content)))
-            .environment(\.tabBarFillStyle, style)
-    }
-}

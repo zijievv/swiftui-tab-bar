@@ -41,12 +41,3 @@ struct TabItemViewModifier<Selection: Hashable, V: View>: ViewModifier {
         )
     }
 }
-
-extension View {
-    public func tabItem<Selection: Hashable, V: View>(
-        _ selection: Selection,
-        @ViewBuilder label: @escaping () -> V
-    ) -> some View {
-        modifier(TabItemViewModifier(item: selection, itemBuilder: label))
-    }
-}

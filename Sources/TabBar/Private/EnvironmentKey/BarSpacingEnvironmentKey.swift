@@ -20,10 +20,3 @@ extension EnvironmentValues {
         set { self[BarSpacingEnvironmentKey.self] = newValue }
     }
 }
-
-extension View {
-    /// Sets extra distance placed between the TabBar and the content view, or `nil` to use the default amount of spacing.
-    public func tabBarSpacing(_ spacing: CGFloat? = nil) -> some View {
-        environment(\.tabBarSpacing, spacing)
-    }
-}

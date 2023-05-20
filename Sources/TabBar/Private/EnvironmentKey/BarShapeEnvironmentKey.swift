@@ -20,9 +20,3 @@ extension EnvironmentValues {
         set { self[BarShapeEnvironmentKey.self] = newValue }
     }
 }
-
-extension View {
-    public func tabBarShape(_ shape: any Shape) -> some View {
-        environment(\.tabBarShape, shape)
-    }
-}

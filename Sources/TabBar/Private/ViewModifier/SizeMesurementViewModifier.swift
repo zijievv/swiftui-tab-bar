@@ -23,19 +23,3 @@ struct SizeMesurementViewModifier<Key: PreferenceKey>: ViewModifier where Key.Va
             }
     }
 }
-
-extension View {
-    func mesurementSize<Key: PreferenceKey>(
-        of path: KeyPath<CGSize, CGFloat>,
-        to key: Key.Type
-    ) -> some View where Key.Value == CGFloat {
-        modifier(SizeMesurementViewModifier(path: path, key: key))
-    }
-}
-
-struct TabBarViewWidthPreferenceKey: PreferenceKey {
-    static var defaultValue: CGFloat = .zero
-    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
-        value = max(value, nextValue())
-    }
-}

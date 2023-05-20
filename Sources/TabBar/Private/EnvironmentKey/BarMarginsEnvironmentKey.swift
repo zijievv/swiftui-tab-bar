@@ -20,13 +20,3 @@ extension EnvironmentValues {
         set { self[BarMarginsEnvironmentKey.self] = newValue }
     }
 }
-
-extension View {
-    public func tabBarMargins(_ edges: Edge.Set = .all, _ length: CGFloat? = nil) -> some View {
-        modifier(EdgeSetEdgeInsetsViewModifier(keyPath: \.tabBarMargins, edges: edges, length: length))
-    }
-
-    public func tabBarMargins(_ edgeInsets: EdgeInsets) -> some View {
-        modifier(EdgeInsetsViewModifier(keyPath: \.tabBarMargins, edgeInsets: edgeInsets))
-    }
-}

@@ -12,6 +12,7 @@ import SwiftUI
 
 struct ItemViewBuilderPreferenceKey<Selection: Hashable>: PreferenceKey {
     static var defaultValue: [Selection: AnyItemViewBuilder<Selection>] { [:] }
+
     static func reduce(
         value: inout [Selection: AnyItemViewBuilder<Selection>],
         nextValue: () -> [Selection: AnyItemViewBuilder<Selection>]
