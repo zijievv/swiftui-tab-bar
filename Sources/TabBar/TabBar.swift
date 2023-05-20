@@ -20,7 +20,7 @@ public struct TabBar<Selection, Content>: View where Selection: Hashable, Conten
     @Environment(\.tabBarShadow) private var barShadow
     @Environment(\.tabBarShape) private var barShape
     @State private var items: [Selection] = []
-    @State private var tabItemBuilders: [Selection: ItemViewBuilderPreferenceKey<Selection>.BuilderWrapper] = [:]
+    @State private var tabItemBuilders: [Selection: AnyItemViewBuilder<Selection>] = [:]
     @Binding private var selection: Selection
     @Binding private var visibility: Visibility
     private let content: () -> Content

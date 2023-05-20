@@ -31,7 +31,13 @@ struct TabItemViewModifier<Selection: Hashable, V: View>: ViewModifier {
         .preference(key: ItemsPreferenceKey.self, value: [item])
         .preference(
             key: ItemViewBuilderPreferenceKey.self,
-            value: [item: .init(content: { AnyView(VStack(content: itemBuilder)) })]
+            value: [
+                item: AnyItemViewBuilder(
+                    selectedItemHashValue: selectionHashValue,
+                    item: item,
+                    content: { AnyView(VStack(spacing: 0, content: itemBuilder)) }
+                )
+            ]
         )
     }
 }
