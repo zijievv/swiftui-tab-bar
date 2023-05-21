@@ -24,6 +24,7 @@ public struct TabBar<Selection, Content>: View where Selection: Hashable, Conten
     @State private var width: CGFloat = 0
     @Binding private var selection: Selection
     @Binding private var visibility: Visibility
+    @StateObject private var keyboardObserver: KeyboardObserver = .shared
     private let content: () -> Content
 
     public init(
@@ -50,7 +51,7 @@ public struct TabBar<Selection, Content>: View where Selection: Hashable, Conten
     @ViewBuilder
     private func tabBar() -> some View {
         Group {
-            if visibility != .hidden {
+            if isVisible {
                 HStack(alignment: .bottom, spacing: 0) {
                     ForEach(items, id: \.hashValue, content: tab(item:))
                 }
@@ -80,12 +81,25 @@ public struct TabBar<Selection, Content>: View where Selection: Hashable, Conten
 
     private var mainBarShape: any Shape { barShape ?? Rectangle() }
     private var isDefaultShape: Bool { barShape == nil }
-    private var itemWidth: CGFloat {
-        (width - padding.leading - padding.trailing - margins.leading - margins.trailing) / CGFloat(items.count)
-    }
     private var margins: EdgeInsets { barMargins ?? .init(top: 8, leading: 0, bottom: 8, trailing: 0) }
+
     private var padding: EdgeInsets {
         guard !isDefaultShape else { return .init(top: barPadding?.top ?? 0, leading: 0, bottom: 0, trailing: 0) }
         return barPadding ?? .init(top: 0, leading: 0, bottom: 0, trailing: 0)
+    }
+
+    private var itemWidth: CGFloat {
+        (width - padding.leading - padding.trailing - margins.leading - margins.trailing) / CGFloat(items.count)
+    }
+
+    private var isVisible: Bool {
+        switch visibility {
+        case .automatic:
+            return !keyboardObserver.keyboardWillShow
+        case .visible:
+            return true
+        case .hidden:
+            return false
+        }
     }
 }
