@@ -37,6 +37,14 @@ extension View {
         environment(\.tabBarShadow, .init(color: color, radius: radius, x: x, y: y))
     }
 
+    public func tabBarAnimation(_ builder: @escaping (_ isTabBarVisible: Bool) -> Animation?) -> some View {
+        environment(\.tabBarAnimationBuilder, builder)
+    }
+
+    public func tabBarTransition(_ t: AnyTransition) -> some View {
+        environment(\.tabBarTransition, t)
+    }
+
     /// Sets extra distance placed between the TabBar and the content view,
     /// or `nil` to use the default amount of spacing.
     public func tabBarSpacing(_ spacing: CGFloat? = nil) -> some View {

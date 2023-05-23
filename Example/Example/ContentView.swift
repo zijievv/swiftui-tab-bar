@@ -14,11 +14,15 @@ import TabBar
 struct ContentView: View {
     @Environment(\.colorScheme) private var colorScheme
     @State private var item: Int = 0
-    @State private var visibility: Visibility = .visible
+    @State private var visibility: Visibility = .automatic
+    @State private var text: String = ""
 
     var body: some View {
         TabBar(selection: $item, visibility: $visibility) {
-            Text("Home View")
+            TextField("", text: $text)
+                .textFieldStyle(.roundedBorder)
+                .padding()
+                .background(.brown)
                 .tabItem(0) {
                     Image(systemName: item == 0 ? "house.fill" : "house")
                         .font(.title3)
@@ -46,11 +50,22 @@ struct ContentView: View {
         .tabBarPadding(.vertical, 8)
         .tabBarShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
         .tabBarShadow(color: .init(.sRGBLinear, white: colorScheme == .dark ? 1 : 0, opacity: 0.33), radius: 1, y: 2)
+        .tabBarTransition(.move(edge: .bottom).combined(with: .opacity))
+        .tabBarAnimation { isTabBarVisible in
+            isTabBarVisible ? .easeInOut(duration: 0.2).delay(0.15) : .linear(duration: 0.25)
+        }
         .overlay(alignment: .top) {
-            Button("Visibility") { visibility = visibility == .hidden ? .visible : .hidden }
+            Button("Visibility \(visibilityDescription)") { visibility = visibility == .hidden ? .visible : .hidden }
                 .buttonStyle(.borderedProminent)
         }
-        .preferredColorScheme(.dark)
+    }
+
+    var visibilityDescription: String {
+        switch visibility {
+        case .automatic: return "automatic"
+        case .visible: return "visible"
+        case .hidden: return "hidden"
+        }
     }
 }
 

@@ -12,6 +12,8 @@ import SwiftUI
 
 public struct TabBar<Selection, Content>: View where Selection: Hashable, Content: View {
     @Environment(\.tabItemSelectionHashValue) private var selectionHashValue
+    @Environment(\.tabBarAnimationBuilder) private var animationBuilder
+    @Environment(\.tabBarTransition) private var barTransition
     @Environment(\.tabBarShapeStyle) private var shapeStyle
     @Environment(\.tabBarFillStyle) private var fillStyle
     @Environment(\.tabBarSpacing) private var barSpacing
@@ -46,6 +48,7 @@ public struct TabBar<Selection, Content>: View where Selection: Hashable, Conten
             .onPreferenceChange(ItemsPreferenceKey<Selection>.self) { self.items = $0 }
             .onPreferenceChange(ItemViewBuilderPreferenceKey<Selection>.self) { self.tabItemBuilders = $0 }
             .environment(\.tabItemSelectionHashValue, selection.hashValue)
+            .animation(animationBuilder(isVisible), value: isVisible)
     }
 
     @ViewBuilder
@@ -58,6 +61,7 @@ public struct TabBar<Selection, Content>: View where Selection: Hashable, Conten
                 .padding(margins)
                 .background(alignment: .top) { GeometryReader(content: backgroundBoard(with:)) }
                 .padding(padding)
+                .transition(barTransition)
             }
         }
         .mesurementSize(of: \.height, to: TabBarHeightPreferenceKey.self)
