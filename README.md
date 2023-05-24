@@ -1,3 +1,8 @@
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Shape and Fill Style](#shape-and-fill-style)
+  - [Visibility with Animation and Transition](#visibility-with-animation-and-transition)
+
 # TabBar
 
 <p align="left">
@@ -22,7 +27,7 @@ Similar to `TabView`, the `TabBar` accepts a Binding value that conforms to `Has
 
 ```swift
 import SwiftUI
-import TabBar
+import TabBarModule
 
 struct ContentView: View {
     @State private var item: Int = 0
@@ -75,7 +80,7 @@ TabBar(selection: $item) {
 
 <img src="Resources/Images/RoundedRectShadow-half.png" alt="RoundedRectShadow-half" style="zoom:50%;" />
 
-### Shape & Fill Style
+### Shape and Fill Style
 
 The `TabBar` accepts any fill that conforms to the `ShapeStyle` protocol.
 
@@ -106,7 +111,7 @@ TabBar(selection: $item) {
 
 <img src="Resources/Images/CapsuleGradient-half.png" alt="CapsuleGradient-half" style="zoom:50%;" />
 
-### Visibility with Animation & Transition
+### Visibility with Animation and Transition
 
 The `TabBar` accepts a Binding value of type `Visibility` to control its visibility. When visibility is set to `.automatic`, the `TabBar` will observe the keyboard's appearance to automatically show or hide itself.
 
