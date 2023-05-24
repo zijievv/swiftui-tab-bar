@@ -1,5 +1,5 @@
 //
-//  PublicViewExtension.swift
+//  View+Extension.swift
 //
 //
 //  Created by Zijie on 20.05.2023.
@@ -9,6 +9,7 @@
 //
 
 import SwiftUI
+import TabBarInternal
 
 extension View {
     public func tabItem<Selection: Hashable, V: View>(

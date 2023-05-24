@@ -9,15 +9,11 @@ let package = Package(
         .iOS(.v15)
     ],
     products: [
-        .library(
-            name: "TabBar",
-            targets: ["TabBar"])
+        .library(name: "TabBar", targets: ["TabBar"])
     ],
     targets: [
-        .target(
-            name: "TabBar"),
-        .testTarget(
-            name: "TabBarTests",
-            dependencies: ["TabBar"]),
+        .target(name: "TabBarInternal"),
+        .target(name: "TabBar", dependencies: ["TabBarInternal"]),
+        .testTarget(name: "TabBarTests", dependencies: ["TabBar"]),
     ]
 )

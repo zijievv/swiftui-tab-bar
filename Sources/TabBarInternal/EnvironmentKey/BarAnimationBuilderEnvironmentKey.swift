@@ -15,7 +15,7 @@ struct BarAnimationBuilderEnvironmentKey: EnvironmentKey {
 }
 
 extension EnvironmentValues {
-    var tabBarAnimationBuilder: (Bool) -> Animation? {
+    public var tabBarAnimationBuilder: (Bool) -> Animation? {
         get { self[BarAnimationBuilderEnvironmentKey.self] }
         set { self[BarAnimationBuilderEnvironmentKey.self] = newValue }
     }

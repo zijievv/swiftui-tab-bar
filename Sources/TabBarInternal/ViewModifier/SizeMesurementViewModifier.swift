@@ -10,11 +10,11 @@
 
 import SwiftUI
 
-struct SizeMesurementViewModifier<Key: PreferenceKey>: ViewModifier where Key.Value == CGFloat {
+public struct SizeMesurementViewModifier<Key: PreferenceKey>: ViewModifier where Key.Value == CGFloat {
     let path: KeyPath<CGSize, CGFloat>
     let key: Key.Type
 
-    func body(content: Content) -> some View {
+    public func body(content: Content) -> some View {
         content
             .background {
                 GeometryReader { geo in

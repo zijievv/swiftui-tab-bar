@@ -15,7 +15,7 @@ struct BarPaddingEnvironmentKey: EnvironmentKey {
 }
 
 extension EnvironmentValues {
-    var tabBarPadding: EdgeInsets? {
+    public var tabBarPadding: EdgeInsets? {
         get { self[BarPaddingEnvironmentKey.self] }
         set { self[BarPaddingEnvironmentKey.self] = newValue }
     }

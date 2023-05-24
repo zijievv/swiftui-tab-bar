@@ -15,7 +15,7 @@ struct BarShapeEnvironmentKey: EnvironmentKey {
 }
 
 extension EnvironmentValues {
-    var tabBarShape: (any Shape)? {
+    public var tabBarShape: (any Shape)? {
         get { self[BarShapeEnvironmentKey.self] }
         set { self[BarShapeEnvironmentKey.self] = newValue }
     }

@@ -55,12 +55,20 @@ struct ContentView: View {
             isTabBarVisible ? .easeInOut(duration: 0.2).delay(0.15) : .linear(duration: 0.25)
         }
         .overlay(alignment: .top) {
-            Button("Visibility \(visibilityDescription)") { visibility = visibility == .hidden ? .visible : .hidden }
+            Button("Visibility \(visibilityDescription)", action: nextVisibility)
                 .buttonStyle(.borderedProminent)
         }
     }
 
-    var visibilityDescription: String {
+    private func nextVisibility() {
+        switch visibility {
+        case .automatic: visibility = .visible
+        case .visible: visibility = .hidden
+        case .hidden: visibility = .automatic
+        }
+    }
+
+    private var visibilityDescription: String {
         switch visibility {
         case .automatic: return "automatic"
         case .visible: return "visible"

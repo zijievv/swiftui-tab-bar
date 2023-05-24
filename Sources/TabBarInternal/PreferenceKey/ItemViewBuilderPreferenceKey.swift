@@ -10,10 +10,10 @@
 
 import SwiftUI
 
-struct ItemViewBuilderPreferenceKey<Selection: Hashable>: PreferenceKey {
-    static var defaultValue: [Selection: AnyItemViewBuilder<Selection>] { [:] }
+public struct ItemViewBuilderPreferenceKey<Selection: Hashable>: PreferenceKey {
+    public static var defaultValue: [Selection: AnyItemViewBuilder<Selection>] { [:] }
 
-    static func reduce(
+    public static func reduce(
         value: inout [Selection: AnyItemViewBuilder<Selection>],
         nextValue: () -> [Selection: AnyItemViewBuilder<Selection>]
     ) {
@@ -21,17 +21,17 @@ struct ItemViewBuilderPreferenceKey<Selection: Hashable>: PreferenceKey {
     }
 }
 
-struct AnyItemViewBuilder<Selection: Hashable>: Hashable, Equatable {
-    let selectedItemHashValue: Int?
-    let item: Selection
-    let content: () -> AnyView
+public struct AnyItemViewBuilder<Selection: Hashable>: Hashable, Equatable {
+    public let selectedItemHashValue: Int?
+    public let item: Selection
+    public let content: () -> AnyView
 
-    func hash(into hasher: inout Hasher) {
+    public func hash(into hasher: inout Hasher) {
         hasher.combine(selectedItemHashValue)
         hasher.combine(item)
     }
 
-    static func == (lhs: AnyItemViewBuilder, rhs: AnyItemViewBuilder) -> Bool {
+    public static func == (lhs: AnyItemViewBuilder, rhs: AnyItemViewBuilder) -> Bool {
         lhs.hashValue == rhs.hashValue
     }
 }

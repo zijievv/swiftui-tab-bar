@@ -10,10 +10,10 @@
 
 import SwiftUI
 
-struct TabBarViewWidthPreferenceKey: PreferenceKey {
-    static var defaultValue: CGFloat = .zero
+public struct TabBarViewWidthPreferenceKey: PreferenceKey {
+    public static var defaultValue: CGFloat = .zero
 
-    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+    public static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
         value = max(value, nextValue())
     }
 }

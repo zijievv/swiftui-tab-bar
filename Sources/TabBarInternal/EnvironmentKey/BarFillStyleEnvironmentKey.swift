@@ -15,7 +15,7 @@ struct BarFillStyleEnvironmentKey: EnvironmentKey {
 }
 
 extension EnvironmentValues {
-    var tabBarFillStyle: FillStyle {
+    public var tabBarFillStyle: FillStyle {
         get { self[BarFillStyleEnvironmentKey.self] }
         set { self[BarFillStyleEnvironmentKey.self] = newValue }
     }

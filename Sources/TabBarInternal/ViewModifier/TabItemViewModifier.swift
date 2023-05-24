@@ -10,17 +10,17 @@
 
 import SwiftUI
 
-struct TabItemViewModifier<Selection: Hashable, V: View>: ViewModifier {
+public struct TabItemViewModifier<Selection: Hashable, V: View>: ViewModifier {
     @Environment(\.tabItemSelectionHashValue) private var selectionHashValue
     private let item: Selection
     @ViewBuilder private let itemBuilder: () -> V
 
-    init(item: Selection, @ViewBuilder itemBuilder: @escaping () -> V) {
+    public init(item: Selection, @ViewBuilder itemBuilder: @escaping () -> V) {
         self.item = item
         self.itemBuilder = itemBuilder
     }
 
-    func body(content: Content) -> some View {
+    public func body(content: Content) -> some View {
         Group {
             if selectionHashValue == item.hashValue {
                 content

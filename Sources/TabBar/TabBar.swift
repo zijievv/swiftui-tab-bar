@@ -9,6 +9,7 @@
 //
 
 import SwiftUI
+import TabBarInternal
 
 public struct TabBar<Selection, Content>: View where Selection: Hashable, Content: View {
     @Environment(\.tabItemSelectionHashValue) private var selectionHashValue

@@ -15,7 +15,7 @@ struct BarSpacingEnvironmentKey: EnvironmentKey {
 }
 
 extension EnvironmentValues {
-    var tabBarSpacing: CGFloat? {
+    public var tabBarSpacing: CGFloat? {
         get { self[BarSpacingEnvironmentKey.self] }
         set { self[BarSpacingEnvironmentKey.self] = newValue }
     }

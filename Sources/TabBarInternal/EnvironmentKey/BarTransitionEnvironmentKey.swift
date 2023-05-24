@@ -15,7 +15,7 @@ struct BarTransitionEnvironmentKey: EnvironmentKey {
 }
 
 extension EnvironmentValues {
-    var tabBarTransition: AnyTransition {
+    public var tabBarTransition: AnyTransition {
         get { self[BarTransitionEnvironmentKey.self] }
         set { self[BarTransitionEnvironmentKey.self] = newValue }
     }

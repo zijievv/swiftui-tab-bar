@@ -10,10 +10,10 @@
 
 import SwiftUI
 
-class KeyboardObserver: ObservableObject {
-    static let shared: KeyboardObserver = .init()
+public class KeyboardObserver: ObservableObject {
+    public static let shared: KeyboardObserver = .init()
 
-    @Published private(set) var keyboardWillShow = false
+    @Published public private(set) var keyboardWillShow = false
 
     private init() {
         NotificationCenter.default

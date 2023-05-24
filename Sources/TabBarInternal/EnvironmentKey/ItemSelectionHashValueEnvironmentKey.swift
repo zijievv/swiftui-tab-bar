@@ -15,7 +15,7 @@ struct ItemSelectionHashValueEnvironmentKey: EnvironmentKey {
 }
 
 extension EnvironmentValues {
-    var tabItemSelectionHashValue: Int? {
+    public var tabItemSelectionHashValue: Int? {
         get { self[ItemSelectionHashValueEnvironmentKey.self] }
         set { self[ItemSelectionHashValueEnvironmentKey.self] = newValue }
     }
