@@ -10,7 +10,7 @@
 
 import XCTest
 
-@testable import TabBar
+@testable import TabBarModule
 
 final class TabBarTests: XCTestCase {
     func testExample() throws {

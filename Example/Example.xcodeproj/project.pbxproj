@@ -11,7 +11,7 @@
 		7831D25A2A140BD300DC4BA1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7831D2592A140BD300DC4BA1 /* ContentView.swift */; };
 		7831D25C2A140BD300DC4BA1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7831D25B2A140BD300DC4BA1 /* Assets.xcassets */; };
 		7831D25F2A140BD300DC4BA1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7831D25E2A140BD300DC4BA1 /* Preview Assets.xcassets */; };
-		7831D2692A140E3D00DC4BA1 /* TabBar in Frameworks */ = {isa = PBXBuildFile; productRef = 7831D2682A140E3D00DC4BA1 /* TabBar */; };
+		78E6ED942A1E1F9000E68FC6 /* TabBarModule in Frameworks */ = {isa = PBXBuildFile; productRef = 78E6ED932A1E1F9000E68FC6 /* TabBarModule */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,7 +28,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7831D2692A140E3D00DC4BA1 /* TabBar in Frameworks */,
+				78E6ED942A1E1F9000E68FC6 /* TabBarModule in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -104,7 +104,7 @@
 			);
 			name = Example;
 			packageProductDependencies = (
-				7831D2682A140E3D00DC4BA1 /* TabBar */,
+				78E6ED932A1E1F9000E68FC6 /* TabBarModule */,
 			);
 			productName = Example;
 			productReference = 7831D2542A140BD300DC4BA1 /* Example.app */;
@@ -370,9 +370,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		7831D2682A140E3D00DC4BA1 /* TabBar */ = {
+		78E6ED932A1E1F9000E68FC6 /* TabBarModule */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = TabBar;
+			productName = TabBarModule;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

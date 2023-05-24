@@ -9,7 +9,7 @@
 //
 
 import SwiftUI
-import TabBar
+import TabBarModule
 
 struct ContentView: View {
     @Environment(\.colorScheme) private var colorScheme
