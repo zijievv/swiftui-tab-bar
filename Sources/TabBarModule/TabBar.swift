@@ -12,7 +12,6 @@ import SwiftUI
 import TabBarInternal
 
 public struct TabBar<Selection, Content>: View where Selection: Hashable, Content: View {
-    @Environment(\.tabItemSelectionHashValue) private var selectionHashValue
     @Environment(\.tabBarAnimationBuilder) private var animationBuilder
     @Environment(\.tabBarTransition) private var barTransition
     @Environment(\.tabBarShapeStyle) private var shapeStyle
