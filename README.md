@@ -19,7 +19,24 @@
 
 Requirement: iOS 15.0+
 
-This package can be installed using the [Swift Package Manager](https://www.swift.org/package-manager/).
+This package can be installed using the [Swift Package Manager](https://www.swift.org/package-manager/)(SPM).
+
+Add the following line to the dependencies in `Package.swift`, to use the `TabBarModule` in a SPM project:
+
+```swift
+.package(url: "https://github.com/zijievv/swiftui-tab-bar", from: "0.0.1"),
+```
+
+ In your executable target:
+
+```swift
+.target(name: "<TARGET_NAME>", dependencies: [
+    .product(name: "TabBarModule", package: "swiftui-tab-bar"),
+    // ...
+]),
+```
+
+Add `import TabBarModule` into your source code to use `TabBar`.
 
 ## Usage
 
