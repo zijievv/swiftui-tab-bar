@@ -10,10 +10,10 @@
 
 import SwiftUI
 
-public struct ItemsPreferenceKey<Selection: Hashable>: PreferenceKey {
-    public static var defaultValue: [Selection] { [] }
+struct ItemsPreferenceKey<Selection: Hashable>: PreferenceKey {
+    static var defaultValue: [Selection] { [] }
 
-    public static func reduce(value: inout [Selection], nextValue: () -> [Selection]) {
+    static func reduce(value: inout [Selection], nextValue: () -> [Selection]) {
         value.append(contentsOf: nextValue())
     }
 }

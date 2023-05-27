@@ -9,7 +9,6 @@
 //
 
 import SwiftUI
-import TabBarInternal
 
 extension View {
     public func tabItem<Selection: Hashable, V: View>(

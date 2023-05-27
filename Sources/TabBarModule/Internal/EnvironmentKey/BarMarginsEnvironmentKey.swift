@@ -15,7 +15,7 @@ struct BarMarginsEnvironmentKey: EnvironmentKey {
 }
 
 extension EnvironmentValues {
-    public var tabBarMargins: EdgeInsets? {
+    var tabBarMargins: EdgeInsets? {
         get { self[BarMarginsEnvironmentKey.self] }
         set { self[BarMarginsEnvironmentKey.self] = newValue }
     }

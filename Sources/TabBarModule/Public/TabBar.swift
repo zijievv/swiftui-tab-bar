@@ -9,7 +9,6 @@
 //
 
 import SwiftUI
-import TabBarInternal
 
 public struct TabBar<Selection, Content>: View where Selection: Hashable, Content: View {
     @Environment(\.tabBarAnimationBuilder) private var animationBuilder

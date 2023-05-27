@@ -4,7 +4,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "TabBar",
+    name: "swiftui-tab-bar",
     platforms: [
         .iOS(.v15)
     ],
@@ -12,8 +12,7 @@ let package = Package(
         .library(name: "TabBarModule", targets: ["TabBarModule"])
     ],
     targets: [
-        .target(name: "TabBarInternal"),
-        .target(name: "TabBarModule", dependencies: ["TabBarInternal"]),
+        .target(name: "TabBarModule"),
         .testTarget(name: "TabBarTests", dependencies: ["TabBarModule"]),
     ]
 )
