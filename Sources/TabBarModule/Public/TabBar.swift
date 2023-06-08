@@ -12,6 +12,7 @@ import SwiftUI
 
 public struct TabBar<Selection, Content>: View where Selection: Hashable, Content: View {
     @Environment(\.tabBarAnimationBuilder) private var animationBuilder
+    @Environment(\.tabBarItemsAlignment) private var itemsAlignment
     @Environment(\.tabBarTransition) private var barTransition
     @Environment(\.tabBarShapeStyle) private var shapeStyle
     @Environment(\.tabBarFillStyle) private var fillStyle
@@ -54,7 +55,7 @@ public struct TabBar<Selection, Content>: View where Selection: Hashable, Conten
     private func tabBar() -> some View {
         Group {
             if isVisible {
-                HStack(alignment: .bottom, spacing: 0) {
+                HStack(alignment: itemsAlignment, spacing: 0) {
                     ForEach(items, id: \.hashValue, content: tab(item:))
                 }
                 .padding(margins)

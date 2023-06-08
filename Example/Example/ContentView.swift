@@ -54,6 +54,7 @@ struct ContentView: View {
         .tabBarAnimation { isTabBarVisible in
             isTabBarVisible ? .easeInOut(duration: 0.2).delay(0.15) : .linear(duration: 0.25)
         }
+        .tabBarItemsAlignment(.bottom)
         .overlay(alignment: .top) {
             Button("Visibility \(visibilityDescription)", action: nextVisibility)
                 .buttonStyle(.borderedProminent)

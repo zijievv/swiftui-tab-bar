@@ -66,4 +66,8 @@ extension View {
     public func tabBarMargins(_ edgeInsets: EdgeInsets) -> some View {
         modifier(EdgeInsetsViewModifier(keyPath: \.tabBarMargins, edgeInsets: edgeInsets))
     }
+
+    public func tabBarItemsAlignment(_ alignment: VerticalAlignment) -> some View {
+        environment(\.tabBarItemsAlignment, alignment)
+    }
 }
