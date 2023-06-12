@@ -78,7 +78,8 @@ public struct TabBar<Selection, Content>: View where Selection: Hashable, Conten
     }
 
     private func backgroundBoard(with geo: GeometryProxy) -> some View {
-        AnyView(mainBarShape.fill(shapeStyle, style: fillStyle))
+        let filledShape = mainBarShape.fill(shapeStyle, style: fillStyle)
+        return AnyView(filledShape)
             .frame(height: isDefaultShape ? geo.size.height + geo.safeAreaInsets.bottom : geo.size.height)
             .shadow(color: barShadow.color, radius: barShadow.radius, x: barShadow.x, y: barShadow.y)
     }
