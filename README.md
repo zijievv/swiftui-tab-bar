@@ -1,7 +1,10 @@
-- [Installation](#installation)
+
 - [Usage](#usage)
   - [Shape and Fill Style](#shape-and-fill-style)
   - [Visibility with Animation and Transition](#visibility-with-animation-and-transition)
+- [Installation](#installation)
+  - [Swift Package Manager (SPM)](#swift-package-manager-(spm))
+  - [Xcode](#xcode)
 
 # TabBar
 
@@ -14,29 +17,6 @@
 </p>
 
 **`TabBar`** is a highly customizable tab bar view made in SwiftUI that functions similarly to [`TabView`](https://developer.apple.com/documentation/swiftui/tabview).
-
-## Installation
-
-Requirement: iOS 15.0+
-
-This package can be installed using the [Swift Package Manager](https://www.swift.org/package-manager/)(SPM).
-
-Add the following line to the dependencies in `Package.swift`, to use the `TabBarModule` in a SPM project:
-
-```swift
-.package(url: "https://github.com/zijievv/swiftui-tab-bar", from: "0.0.1"),
-```
-
- In your executable target:
-
-```swift
-.target(name: "<TARGET_NAME>", dependencies: [
-    .product(name: "TabBarModule", package: "swiftui-tab-bar"),
-    // ...
-]),
-```
-
-Add `import TabBarModule` into your source code to use `TabBar`.
 
 ## Usage
 
@@ -59,19 +39,9 @@ struct ContentView: View {
                         .font(.system(.footnote, design: .rounded).weight(item == 0 ? .bold : .medium))
                 }
             MarksView()
-                .tabItem(1) {
-                    Image(systemName: item == 1 ? "star.fill" : "star")
-                        .font(.title3)
-                    Text("Marks")
-                        .font(.system(.footnote, design: .rounded).weight(item == 1 ? .bold : .medium))
-                }
+                .tabItem(1) { /* ... */ }
             UserView()
-                .tabItem(2) {
-                    Image(systemName: item == 2 ? "person.fill" : "person")
-                        .font(.title3)
-                    Text("User")
-                        .font(.system(.footnote, design: .rounded).weight(item == 2 ? .bold : .medium))
-                }
+                .tabItem(2) { /* ... */ }
         }
     }
 }
@@ -99,34 +69,42 @@ TabBar(selection: $item) {
 
 ### Shape and Fill Style
 
+The `TabBar`  accepts any background shape that conforms to the `Shape` protocol (e.g., `Capsule`).
+
+```swift
+TabBar(selection: $item) { /* ... */ }
+    .tabBarPadding(.vertical, 8)
+    .tabBarPadding(.horizontal, 16)
+    .tabBarShape(Capsule(style: .continuous))
+    .tabBarFill(.linearGradient(
+        colors: [.yellow, .yellow.opacity(0.4)], 
+        startPoint: .top, endPoint: .bottom))
+```
+
+<img src="Resources/Images/CapsuleGradient-half.png" alt="CapsuleGradient-half" style="zoom:50%;" />
+
 The `TabBar` accepts any fill that conforms to the `ShapeStyle` protocol.
 
 ```swift
-TabBar(selection: $item) {
-    // ...
-}
-.tabBarFill(.linearGradient(colors: [.orange, .yellow], 
-                            startPoint: .top, endPoint: .bottom))
-.tabBarMargins(.vertical, 8)
+TabBar(selection: $item) { /* ... */ }
+    .tabBarFill(.linearGradient(
+        colors: [.orange, .yellow], startPoint: .top, endPoint: .bottom))
 ```
 
 <img src="Resources/Images/defaultShapeGradient-half.png" alt="defaultShapeGradient-half" style="zoom:50%;" />
 
-The `TabBar` also accepts any background shape that conforms to the `Shape` protocol (e.g., Capsule).
+In addition to using `ShapeStyle` for filling, you can also use any view to set the foreground of the `TabBar`.
 
 ```swift
-TabBar(selection: $item) {
-    // ...
-}
-.tabBarMargins(.vertical, 8)
-.tabBarPadding(.vertical, 8)
-.tabBarPadding(.horizontal, 16)
-.tabBarShape(Capsule(style: .continuous))
-.tabBarFill(.linearGradient(colors: [.yellow, .yellow.opacity(0.4)], 
-                            startPoint: .top, endPoint: .bottom))
+TabBar(selection: $item) { /* ... */ }
+    .tabBarForeground {
+        Image("BarOrange").resizable().scaledToFill()
+    }
+    .tabBarShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+    .tabBarShadow(radius: 1, y: 2)
 ```
 
-<img src="Resources/Images/CapsuleGradient-half.png" alt="CapsuleGradient-half" style="zoom:50%;" />
+<img src="Resources/Images/ForegroundView-half.png" alt="ForegroundView-half" style="zoom:50%;" />
 
 ### Visibility with Animation and Transition
 
@@ -135,11 +113,41 @@ The `TabBar` accepts a Binding value of type `Visibility` to control its visibil
 You can customize the animation and transition for the appearance and disappearance of the `TabBar`.
 
 ```swift
-TabBar(selection: $item, visibility: $visibility) {
-    // ...
-}
-.tabBarTransition(.move(edge: .bottom).combined(with: .opacity))
-.tabBarAnimation { isTabBarVisible in
-    isTabBarVisible ? .easeInOut(duration: 0.2).delay(0.15) : .linear(duration: 0.25)
-}
+TabBar(selection: $item, visibility: $visibility) { /* ... */ }
+    .tabBarTransition(.move(edge: .bottom).combined(with: .opacity))
+    .tabBarAnimation { isTabBarVisible in
+        isTabBarVisible ? .easeInOut : .linear
+    }
 ```
+
+## Installation
+
+Requirement: iOS 15.0+
+
+### [Swift Package Manager](https://www.swift.org/package-manager/) (SPM)
+
+Add the following line to the dependencies in `Package.swift`, to use the `TabBarModule` in a SPM project:
+
+```swift
+.package(url: "https://github.com/zijievv/swiftui-tab-bar", from: "0.0.1"),
+```
+
+ In your target:
+
+```swift
+.target(name: "<TARGET_NAME>", dependencies: [
+    .product(name: "TabBarModule", package: "swiftui-tab-bar"),
+    // ...
+]),
+```
+
+Add `import TabBarModule` into your source code to use `TabBar`.
+
+### Xcode
+
+Go to `File > Add Package Dependencies...` and paste the repo's URL:
+
+```
+https://github.com/zijievv/swiftui-tab-bar.git
+```
+
