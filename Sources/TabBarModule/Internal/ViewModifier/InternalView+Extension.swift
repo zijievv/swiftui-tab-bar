@@ -1,5 +1,5 @@
 //
-//  InternalViewExtension.swift
+//  InternalView+Extension.swift
 //
 //
 //  Created by Zijie on 18.05.2023.
@@ -25,5 +25,18 @@ extension View {
         to key: Key.Type
     ) -> some View where Key.Value == CGFloat {
         modifier(SizeMesurementViewModifier(path: path, key: key))
+    }
+
+    func foreground<V: View>(_ content: @escaping () -> V) -> some View {
+        return self
+            .foregroundStyle(.clear)
+            .overlay {
+                GeometryReader { geo in
+                    content()
+                        .frame(width: geo.size.width, height: geo.size.height)
+                        .clipped()
+                        .mask { self }
+                }
+            }
     }
 }

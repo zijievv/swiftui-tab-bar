@@ -11,6 +11,7 @@
 import SwiftUI
 
 public struct TabBar<Selection, Content>: View where Selection: Hashable, Content: View {
+    @Environment(\.tabBarForegroundViewBuilder) private var barForegroundViewBuilder
     @Environment(\.tabBarAnimationBuilder) private var animationBuilder
     @Environment(\.tabBarItemsAlignment) private var itemsAlignment
     @Environment(\.tabBarTransition) private var barTransition
@@ -59,7 +60,7 @@ public struct TabBar<Selection, Content>: View where Selection: Hashable, Conten
                     ForEach(items, id: \.hashValue, content: tab(item:))
                 }
                 .padding(margins)
-                .background(alignment: .top) { GeometryReader(content: backgroundBoard(with:)) }
+                .background(alignment: .top) { GeometryReader(content: backgroundBar(with:)) }
                 .padding(padding)
                 .transition(barTransition)
             }
@@ -77,14 +78,28 @@ public struct TabBar<Selection, Content>: View where Selection: Hashable, Conten
         }
     }
 
-    private func backgroundBoard(with geo: GeometryProxy) -> some View {
-        let filledShape = mainBarShape.fill(shapeStyle, style: fillStyle)
-        return AnyView(filledShape)
-            .frame(height: isDefaultShape ? geo.size.height + geo.safeAreaInsets.bottom : geo.size.height)
+    private func backgroundBar(with geo: GeometryProxy) -> some View {
+        filledViewBar(with: geo)
             .shadow(color: barShadow.color, radius: barShadow.radius, x: barShadow.x, y: barShadow.y)
     }
 
-    private var mainBarShape: any Shape { barShape ?? Rectangle() }
+    @ViewBuilder
+    private func filledViewBar(with geo: GeometryProxy) -> some View {
+        if let barForegroundViewBuilder {
+            filledShapStyleBar(with: geo)
+                .foreground(barForegroundViewBuilder)
+        } else {
+            filledShapStyleBar(with: geo)
+        }
+    }
+
+    private func filledShapStyleBar(with geo: GeometryProxy) -> some View {
+        let filledShape = anyShapeBar.fill(shapeStyle, style: fillStyle)
+        return AnyView(filledShape)
+            .frame(height: isDefaultShape ? geo.size.height + geo.safeAreaInsets.bottom : geo.size.height)
+    }
+
+    private var anyShapeBar: any Shape { barShape ?? Rectangle() }
     private var isDefaultShape: Bool { barShape == nil }
     private var margins: EdgeInsets { barMargins ?? .init(top: 8, leading: 0, bottom: 8, trailing: 0) }
 

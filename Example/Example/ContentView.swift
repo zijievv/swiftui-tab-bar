@@ -45,6 +45,11 @@ struct ContentView: View {
                 }
         }
         .tabBarFill(.regularMaterial)
+        .tabBarForeground {
+            Image("BarOrange")
+                .resizable()
+                .scaledToFill()
+        }
         .tabBarMargins(.vertical, 8)
         .tabBarPadding(.horizontal, 16)
         .tabBarPadding(.vertical, 8)

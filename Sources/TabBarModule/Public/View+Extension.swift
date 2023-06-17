@@ -24,6 +24,10 @@ extension View {
             .environment(\.tabBarFillStyle, style)
     }
 
+    public func tabBarForeground<V: View>(_ content: @escaping () -> V) -> some View {
+        environment(\.tabBarForegroundViewBuilder, { AnyView(content()) })
+    }
+
     public func tabBarShape(_ shape: any Shape) -> some View {
         environment(\.tabBarShape, shape)
     }
