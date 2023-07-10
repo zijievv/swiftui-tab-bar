@@ -63,7 +63,7 @@ public struct TabBar<Selection, Content>: View where Selection: Hashable, Conten
                 .transition(barTransition)
             }
         }
-        .mesurementSize(of: \.height, to: TabBarHeightPreferenceKey.self)
+        .measurementSize(of: \.height, to: TabBarHeightPreferenceKey.self)
     }
 
     @ViewBuilder

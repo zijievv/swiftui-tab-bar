@@ -20,7 +20,7 @@ extension View {
         }
     }
 
-    func mesurementSize<Key: PreferenceKey>(
+    func measurementSize<Key: PreferenceKey>(
         of path: KeyPath<CGSize, CGFloat>,
         to key: Key.Type
     ) -> some View where Key.Value == CGFloat {
@@ -28,7 +28,7 @@ extension View {
     }
 
     func foreground<V: View>(_ content: @escaping () -> V) -> some View {
-        return self
+        self
             .foregroundStyle(.clear)
             .overlay {
                 GeometryReader { geo in
