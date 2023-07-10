@@ -24,7 +24,6 @@ public struct TabBar<Selection, Content>: View where Selection: Hashable, Conten
     @Environment(\.tabBarShape) private var barShape
     @State private var items: [Selection] = []
     @State private var tabItemBuilders: [Selection: AnyItemViewBuilder<Selection>] = [:]
-    @State private var width: CGFloat = 0
     @Binding private var selection: Selection
     @Binding private var visibility: Visibility
     @StateObject private var keyboardObserver: KeyboardObserver = .shared
@@ -41,23 +40,22 @@ public struct TabBar<Selection, Content>: View where Selection: Hashable, Conten
     }
 
     public var body: some View {
-        ZStack(content: content)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .safeAreaInset(edge: .bottom, alignment: .center, spacing: barSpacing, content: tabBar)
-            .mesurementSize(of: \.width, to: TabBarViewWidthPreferenceKey.self)
-            .onPreferenceChange(TabBarViewWidthPreferenceKey.self) { self.width = $0 }
-            .onPreferenceChange(ItemsPreferenceKey<Selection>.self) { self.items = $0 }
-            .onPreferenceChange(ItemViewBuilderPreferenceKey<Selection>.self) { self.tabItemBuilders = $0 }
-            .environment(\.tabItemSelectionHashValue, selection.hashValue)
-            .animation(animationBuilder(isVisible), value: isVisible)
+        GeometryReader { geo in
+            ZStack(content: content)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .safeAreaInset(edge: .bottom, alignment: .center, spacing: barSpacing) { tabBar(in: geo) }
+                .onPreferenceChange(ItemsPreferenceKey<Selection>.self) { self.items = $0 }
+                .onPreferenceChange(ItemViewBuilderPreferenceKey<Selection>.self) { self.tabItemBuilders = $0 }
+                .environment(\.tabItemSelectionHashValue, selection.hashValue)
+                .animation(animationBuilder(isVisible), value: isVisible)
+        }
     }
 
-    @ViewBuilder
-    private func tabBar() -> some View {
+    private func tabBar(in geo: GeometryProxy) -> some View {
         Group {
             if isVisible {
                 HStack(alignment: itemsAlignment, spacing: 0) {
-                    ForEach(items, id: \.hashValue, content: tab(item:))
+                    ForEach(items, id: \.hashValue) { tab(item: $0, width: itemWidth(in: geo.size.width)) }
                 }
                 .padding(margins)
                 .background(alignment: .top) { GeometryReader(content: backgroundBar(with:)) }
@@ -69,12 +67,12 @@ public struct TabBar<Selection, Content>: View where Selection: Hashable, Conten
     }
 
     @ViewBuilder
-    private func tab(item: Selection) -> some View {
+    private func tab(item: Selection, width: CGFloat) -> some View {
         if let builder = tabItemBuilders[item]?.content {
             builder()
                 .contentShape(Rectangle())
                 .onTapGesture { selection = item }
-                .frame(width: itemWidth)
+                .frame(width: width)
         }
     }
 
@@ -108,8 +106,8 @@ public struct TabBar<Selection, Content>: View where Selection: Hashable, Conten
         return barPadding ?? .init(top: 0, leading: 0, bottom: 0, trailing: 0)
     }
 
-    private var itemWidth: CGFloat {
-        (width - padding.leading - padding.trailing - margins.leading - margins.trailing) / CGFloat(items.count)
+    private func itemWidth(in wholeWidth: CGFloat) -> CGFloat {
+        (wholeWidth - padding.leading - padding.trailing - margins.leading - margins.trailing) / CGFloat(items.count)
     }
 
     private var isVisible: Bool {
