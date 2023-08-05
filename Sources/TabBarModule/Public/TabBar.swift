@@ -79,6 +79,7 @@ public struct TabBar<Selection, Content>: View where Selection: Hashable, Conten
     private func backgroundBar(with geo: GeometryProxy) -> some View {
         filledViewBar(with: geo)
             .shadow(color: barShadow.color, radius: barShadow.radius, x: barShadow.x, y: barShadow.y)
+            .ignoresSafeArea(edges: .horizontal)
     }
 
     @ViewBuilder

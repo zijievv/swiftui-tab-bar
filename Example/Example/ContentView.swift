@@ -36,13 +36,16 @@ struct ContentView: View {
                     Text("Marks")
                         .font(.system(.footnote, design: .rounded).weight(item == 1 ? .bold : .medium))
                 }
-            Text("User View")
-                .tabItem(2) {
-                    Image(systemName: item == 2 ? "person.fill" : "person")
-                        .font(.title3)
-                    Text("User")
-                        .font(.system(.footnote, design: .rounded).weight(item == 2 ? .bold : .medium))
-                }
+            ZStack {
+                Color.orange
+                Text("User View")
+            }
+            .tabItem(2) {
+                Image(systemName: item == 2 ? "person.fill" : "person")
+                    .font(.title3)
+                Text("User")
+                    .font(.system(.footnote, design: .rounded).weight(item == 2 ? .bold : .medium))
+            }
         }
         .tabBarFill(.regularMaterial)
         .tabBarForeground {
