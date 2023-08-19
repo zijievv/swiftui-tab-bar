@@ -21,23 +21,19 @@ struct TabItemViewModifier<Selection: Hashable, V: View>: ViewModifier {
     }
 
     func body(content: Content) -> some View {
-        Group {
-            if selectionHashValue == item.hashValue {
-                content
-            } else {
-                Color.clear
-            }
-        }
-        .preference(key: ItemsPreferenceKey.self, value: [item])
-        .preference(
-            key: ItemViewBuilderPreferenceKey.self,
-            value: [
-                item: AnyItemViewBuilder(
-                    selectedItemHashValue: selectionHashValue,
-                    item: item,
-                    content: { AnyView(VStack(spacing: 0, content: itemBuilder)) }
-                )
-            ]
-        )
+        content
+            .opacity(selectionHashValue == item.hashValue ? 1 : 0)
+            .disabled(!(selectionHashValue == item.hashValue))
+            .preference(key: ItemsPreferenceKey.self, value: [item])
+            .preference(
+                key: ItemViewBuilderPreferenceKey.self,
+                value: [
+                    item: AnyItemViewBuilder(
+                        selectedItemHashValue: selectionHashValue,
+                        item: item,
+                        content: { AnyView(VStack(spacing: 0, content: itemBuilder)) }
+                    )
+                ]
+            )
     }
 }

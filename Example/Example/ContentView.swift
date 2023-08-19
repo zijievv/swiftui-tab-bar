@@ -29,7 +29,7 @@ struct ContentView: View {
                     Text("Home")
                         .font(.system(.footnote, design: .rounded).weight(item == 0 ? .bold : .medium))
                 }
-            Text("Marks View")
+            List(1...30, id: \.self) { Text("Row \($0)") }
                 .tabItem(1) {
                     Image(systemName: item == 1 ? "star.fill" : "star")
                         .font(.title3)
