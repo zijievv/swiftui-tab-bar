@@ -10,17 +10,19 @@
 
 import SwiftUI
 
+public typealias ActionWillSelect = () -> Void
+
 extension View {
     public func tabItem<Selection: Hashable, V: View>(
         _ selection: Selection,
-        @ViewBuilder label: @escaping () -> V
+        @ViewBuilder label: @escaping () -> V,
+        actionWillSelect: ActionWillSelect? = nil
     ) -> some View {
-        modifier(TabItemViewModifier(item: selection, itemBuilder: label))
+        modifier(TabItemViewModifier(item: selection, itemBuilder: label, actionWillSelect: actionWillSelect))
     }
 
     public func tabBarFill<S: ShapeStyle>(_ content: S, style: FillStyle = .init()) -> some View {
-        self
-            .environment(\.tabBarShapeStyle, .init(AnyShapeStyle(content)))
+        self.environment(\.tabBarShapeStyle, .init(AnyShapeStyle(content)))
             .environment(\.tabBarFillStyle, style)
     }
 

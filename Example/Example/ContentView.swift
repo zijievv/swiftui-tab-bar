@@ -19,33 +19,31 @@ struct ContentView: View {
 
     var body: some View {
         TabBar(selection: $item, visibility: $visibility) {
-            TextField("", text: $text)
-                .textFieldStyle(.roundedBorder)
-                .padding()
-                .background(.brown)
+            homeView()
                 .tabItem(0) {
                     Image(systemName: item == 0 ? "house.fill" : "house")
                         .font(.title3)
                     Text("Home")
                         .font(.system(.footnote, design: .rounded).weight(item == 0 ? .bold : .medium))
+                } actionWillSelect: {
+                    if item == 0 {
+                        text = ""
+                    }
                 }
-            List(1...30, id: \.self) { Text("Row \($0)") }
+            marksView()
                 .tabItem(1) {
                     Image(systemName: item == 1 ? "star.fill" : "star")
                         .font(.title3)
                     Text("Marks")
                         .font(.system(.footnote, design: .rounded).weight(item == 1 ? .bold : .medium))
                 }
-            ZStack {
-                Color.orange
-                Text("User View")
-            }
-            .tabItem(2) {
-                Image(systemName: item == 2 ? "person.fill" : "person")
-                    .font(.title3)
-                Text("User")
-                    .font(.system(.footnote, design: .rounded).weight(item == 2 ? .bold : .medium))
-            }
+            userView()
+                .tabItem(2) {
+                    Image(systemName: item == 2 ? "person.fill" : "person")
+                        .font(.title3)
+                    Text("User")
+                        .font(.system(.footnote, design: .rounded).weight(item == 2 ? .bold : .medium))
+                }
         }
         .tabBarFill(.regularMaterial)
         .tabBarForeground {
@@ -66,6 +64,26 @@ struct ContentView: View {
         .overlay(alignment: .top) {
             Button("Visibility \(visibilityDescription)", action: nextVisibility)
                 .buttonStyle(.borderedProminent)
+        }
+    }
+
+    private func homeView() -> some View {
+        TextField("", text: $text)
+            .textFieldStyle(.roundedBorder)
+            .padding()
+            .background(.brown)
+    }
+
+    private func marksView() -> some View {
+        List(1...30, id: \.self) {
+            Text("Row \($0)")
+        }
+    }
+
+    private func userView() -> some View {
+        ZStack {
+            Color.orange
+            Text("User View")
         }
     }
 

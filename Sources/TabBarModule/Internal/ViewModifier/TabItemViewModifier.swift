@@ -14,10 +14,12 @@ struct TabItemViewModifier<Selection: Hashable, V: View>: ViewModifier {
     @Environment(\.tabItemSelectionHashValue) private var selectionHashValue
     private let item: Selection
     @ViewBuilder private let itemBuilder: () -> V
+    private let actionWillSelect: ActionWillSelect?
 
-    init(item: Selection, @ViewBuilder itemBuilder: @escaping () -> V) {
+    init(item: Selection, @ViewBuilder itemBuilder: @escaping () -> V, actionWillSelect: ActionWillSelect?) {
         self.item = item
         self.itemBuilder = itemBuilder
+        self.actionWillSelect = actionWillSelect
     }
 
     func body(content: Content) -> some View {
@@ -33,6 +35,12 @@ struct TabItemViewModifier<Selection: Hashable, V: View>: ViewModifier {
                         item: item,
                         content: { AnyView(VStack(spacing: 0, content: itemBuilder)) }
                     )
+                ]
+            )
+            .preference(
+                key: ItemActionWillSelectPreferenceKey.self,
+                value: [
+                    item: TabItemAction(selectedItemHashValue: selectionHashValue, item: item, action: actionWillSelect)
                 ]
             )
     }

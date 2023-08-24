@@ -24,6 +24,7 @@ public struct TabBar<Selection, Content>: View where Selection: Hashable, Conten
     @Environment(\.tabBarShape) private var barShape
     @State private var items: [Selection] = []
     @State private var tabItemBuilders: [Selection: AnyItemViewBuilder<Selection>] = [:]
+    @State private var tabItemActions: [Selection: TabItemAction<Selection>] = [:]
     @Binding private var selection: Selection
     @Binding private var visibility: Visibility
     @StateObject private var keyboardObserver: KeyboardObserver = .shared
@@ -46,6 +47,7 @@ public struct TabBar<Selection, Content>: View where Selection: Hashable, Conten
                 .safeAreaInset(edge: .bottom, alignment: .center, spacing: barSpacing) { tabBar(in: geo) }
                 .onPreferenceChange(ItemsPreferenceKey<Selection>.self) { self.items = $0 }
                 .onPreferenceChange(ItemViewBuilderPreferenceKey<Selection>.self) { self.tabItemBuilders = $0 }
+                .onPreferenceChange(ItemActionWillSelectPreferenceKey<Selection>.self) { self.tabItemActions = $0 }
                 .environment(\.tabItemSelectionHashValue, selection.hashValue)
                 .animation(animationBuilder(isVisible), value: isVisible)
         }
@@ -71,7 +73,10 @@ public struct TabBar<Selection, Content>: View where Selection: Hashable, Conten
         if let builder = tabItemBuilders[item]?.content {
             builder()
                 .contentShape(Rectangle())
-                .onTapGesture { selection = item }
+                .onTapGesture {
+                    tabItemActions[item]?.action?()
+                    selection = item
+                }
                 .frame(width: width)
         }
     }
