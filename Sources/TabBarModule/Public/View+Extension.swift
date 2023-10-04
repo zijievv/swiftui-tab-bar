@@ -16,9 +16,9 @@ extension View {
     public func tabItem<Selection: Hashable, V: View>(
         _ selection: Selection,
         @ViewBuilder label: @escaping () -> V,
-        actionWillSelect: ActionWillSelect? = nil
+        willSelect action: ActionWillSelect? = nil
     ) -> some View {
-        modifier(TabItemViewModifier(item: selection, itemBuilder: label, actionWillSelect: actionWillSelect))
+        modifier(TabItemViewModifier(item: selection, itemBuilder: label, willSelect: action))
     }
 
     public func tabBarFill<S: ShapeStyle>(_ content: S, style: FillStyle = .init()) -> some View {

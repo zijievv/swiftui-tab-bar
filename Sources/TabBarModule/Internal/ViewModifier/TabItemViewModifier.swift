@@ -16,10 +16,10 @@ struct TabItemViewModifier<Selection: Hashable, V: View>: ViewModifier {
     @ViewBuilder private let itemBuilder: () -> V
     private let actionWillSelect: ActionWillSelect?
 
-    init(item: Selection, @ViewBuilder itemBuilder: @escaping () -> V, actionWillSelect: ActionWillSelect?) {
+    init(item: Selection, @ViewBuilder itemBuilder: @escaping () -> V, willSelect action: ActionWillSelect?) {
         self.item = item
         self.itemBuilder = itemBuilder
-        self.actionWillSelect = actionWillSelect
+        self.actionWillSelect = action
     }
 
     func body(content: Content) -> some View {
@@ -40,7 +40,11 @@ struct TabItemViewModifier<Selection: Hashable, V: View>: ViewModifier {
             .preference(
                 key: ItemActionWillSelectPreferenceKey.self,
                 value: [
-                    item: TabItemAction(selectedItemHashValue: selectionHashValue, item: item, action: actionWillSelect)
+                    item: TabItemAction(
+                        selectedItemHashValue: selectionHashValue,
+                        item: item,
+                        actionWillSelect: actionWillSelect
+                    )
                 ]
             )
     }

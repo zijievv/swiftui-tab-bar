@@ -74,7 +74,7 @@ public struct TabBar<Selection, Content>: View where Selection: Hashable, Conten
             builder()
                 .contentShape(Rectangle())
                 .onTapGesture {
-                    tabItemActions[item]?.action?()
+                    tabItemActions[item]?.actionWillSelect?()
                     selection = item
                 }
                 .frame(width: width)

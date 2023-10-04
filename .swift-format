@@ -13,10 +13,17 @@
   "lineBreakBeforeEachGenericRequirement" : false,
   "lineLength" : 120,
   "maximumBlankLines" : 1,
+  "multiElementCollectionTrailingCommas" : true,
+  "noAssignmentInExpressions" : {
+    "allowedFunctions" : [
+      "XCTAssertNoThrow"
+    ]
+  },
   "prioritizeKeepingFunctionOutputTogether" : false,
   "respectsExistingLineBreaks" : true,
   "rules" : {
     "AllPublicDeclarationsHaveDocumentation" : false,
+    "AlwaysUseLiteralForEmptyCollectionInit" : false,
     "AlwaysUseLowerCamelCase" : true,
     "AmbiguousTrailingClosureOverload" : true,
     "BeginDocumentationCommentWithOneLineSummary" : false,
@@ -37,12 +44,16 @@
     "NoLabelsInCasePatterns" : true,
     "NoLeadingUnderscores" : false,
     "NoParensAroundConditions" : true,
+    "NoPlaygroundLiterals" : true,
     "NoVoidReturnOnFunctionSignature" : true,
-    "OneCasePerLine" : false,
+    "OmitExplicitReturns" : false,
+    "OneCasePerLine" : true,
     "OneVariableDeclarationPerLine" : true,
     "OnlyOneTrailingClosureArgument" : false,
     "OrderedImports" : true,
+    "ReplaceForEachWithForLoop" : false,
     "ReturnVoidInsteadOfEmptyTuple" : true,
+    "TypeNamesShouldBeCapitalized" : true,
     "UseEarlyExits" : false,
     "UseLetInEveryBoundCaseVariable" : true,
     "UseShorthandTypeNames" : true,

@@ -24,7 +24,7 @@ struct ItemActionWillSelectPreferenceKey<Selection: Hashable>: PreferenceKey {
 struct TabItemAction<Selection: Hashable>: Hashable, Equatable {
     let selectedItemHashValue: Int?
     let item: Selection
-    let action: ActionWillSelect?
+    let actionWillSelect: ActionWillSelect?
 
     func hash(into hasher: inout Hasher) {
         hasher.combine(selectedItemHashValue)

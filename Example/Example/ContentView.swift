@@ -25,7 +25,7 @@ struct ContentView: View {
                         .font(.title3)
                     Text("Home")
                         .font(.system(.footnote, design: .rounded).weight(item == 0 ? .bold : .medium))
-                } actionWillSelect: {
+                } willSelect: {
                     if item == 0 {
                         text = ""
                     }
