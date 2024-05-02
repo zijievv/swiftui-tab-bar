@@ -10,6 +10,7 @@
 
 import SwiftUI
 
+@MainActor
 class KeyboardObserver: ObservableObject {
     static let shared: KeyboardObserver = .init()
 
@@ -18,16 +19,12 @@ class KeyboardObserver: ObservableObject {
     private init() {
         NotificationCenter.default
             .addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { _ in
-                Task {
-                    await MainActor.run { self.keyboardWillShow = true }
-                }
+                Task { @MainActor in self.keyboardWillShow = true }
             }
 
         NotificationCenter.default
             .addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { _ in
-                Task {
-                    await MainActor.run { self.keyboardWillShow = false }
-                }
+                Task { @MainActor in self.keyboardWillShow = false }
             }
     }
 }

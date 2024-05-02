@@ -11,7 +11,7 @@
 import SwiftUI
 
 struct BarFillStyleEnvironmentKey: EnvironmentKey {
-    static var defaultValue: FillStyle = .init()
+    static var defaultValue: FillStyle { .init() }
 }
 
 extension EnvironmentValues {

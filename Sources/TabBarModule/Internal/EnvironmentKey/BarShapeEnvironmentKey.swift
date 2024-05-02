@@ -11,7 +11,7 @@
 import SwiftUI
 
 struct BarShapeEnvironmentKey: EnvironmentKey {
-    static var defaultValue: (any Shape)? = nil
+    static var defaultValue: (any Shape)? { nil }
 }
 
 extension EnvironmentValues {

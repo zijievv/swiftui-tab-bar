@@ -1,4 +1,4 @@
-// swift-tools-version: 5.9
+// swift-tools-version: 5.5
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -12,10 +12,7 @@ let package = Package(
         .library(name: "TabBarModule", targets: ["TabBarModule"])
     ],
     targets: [
-        .target(
-            name: "TabBarModule",
-            swiftSettings: [.enableExperimentalFeature("StrictConcurrency")]
-        ),
+        .target(name: "TabBarModule"),
         .testTarget(name: "TabBarTests", dependencies: ["TabBarModule"]),
     ]
 )

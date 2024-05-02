@@ -11,7 +11,7 @@
 import SwiftUI
 
 struct BarShadowEnvironmentKey: EnvironmentKey {
-    static var defaultValue: Shadow = .init(color: .clear, radius: 0, x: 0, y: 0)
+    static var defaultValue: Shadow { .init(color: .clear, radius: 0, x: 0, y: 0) }
 }
 
 struct Shadow {

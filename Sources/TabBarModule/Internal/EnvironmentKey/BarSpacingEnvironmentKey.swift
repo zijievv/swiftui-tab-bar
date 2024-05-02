@@ -11,7 +11,7 @@
 import SwiftUI
 
 struct BarSpacingEnvironmentKey: EnvironmentKey {
-    static var defaultValue: CGFloat? = nil
+    static var defaultValue: CGFloat? { nil }
 }
 
 extension EnvironmentValues {
